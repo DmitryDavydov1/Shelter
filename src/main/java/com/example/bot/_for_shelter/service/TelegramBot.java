@@ -126,6 +126,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         List<InlineKeyboardButton> rowInLine1 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine2 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine3 = new ArrayList<>();
+        List<InlineKeyboardButton> rowInLine4 = new ArrayList<>();
         var informationButton = new InlineKeyboardButton();
         String informationButtonText = EmojiParser.parseToUnicode("Узнать информацию о приюте" + " :information_source:");
 
@@ -142,12 +143,21 @@ public class TelegramBot extends TelegramLongPollingBot {
         petReportButtonButton.setText(petReportButtonText);
         petReportButtonButton.setCallbackData("petReport-button");
 
+        var callVolunteerButton = new InlineKeyboardButton();
+        String callVolunteerButtonText = EmojiParser.parseToUnicode("Позвать волонтера" + " :boy:");
+        callVolunteerButton.setText(callVolunteerButtonText);
+        callVolunteerButton.setCallbackData("callVolunteer-button");
+
         rowInLine1.add(informationButton);
         rowInLine2.add(petReportButtonButton);
         rowInLine3.add(takeAnimalButton);
+        rowInLine4.add(callVolunteerButton);
+
+
         rowsInLine.add(rowInLine1);
         rowsInLine.add(rowInLine2);
         rowsInLine.add(rowInLine3);
+        rowsInLine.add(rowInLine4);
 
         markupInLine.setKeyboard(rowsInLine);
         message.setReplyMarkup(markupInLine);
@@ -158,6 +168,4 @@ public class TelegramBot extends TelegramLongPollingBot {
             System.out.println(e);
         }
     }
-
-
 }

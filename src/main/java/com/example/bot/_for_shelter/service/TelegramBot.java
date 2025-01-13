@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -39,14 +40,12 @@ public class TelegramBot extends TelegramLongPollingBot {
             String messageText = update.getMessage().getText();
             long chatId = update.getMessage().getChatId();
 
-            switch (messageText) {
-                case "/start":
-                    startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
-                    break;
-                default:
-                    System.out.println("lsls");
+            if (messageText.equals("/start")) {
+                startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
+            } else {
+                System.out.println("lsls");
             }
-        } else if (update.hasCallbackQuery()) {
+        }else if (update.hasCallbackQuery()) {
             String callbackQuery = update.getCallbackQuery().getData();
             long chatId = update.getCallbackQuery().getMessage().getChatId();
             int messageId = update.getCallbackQuery().getMessage().getMessageId(); // Исправлено здесь
@@ -57,22 +56,32 @@ public class TelegramBot extends TelegramLongPollingBot {
             if (callbackQuery.equals("dog-button")) {
                 String answer = "we work with dog";
                 message.setText(answer);
+                sendMenu(chatId);
+            } else if (callbackQuery.equals("cat-button")) {
+                String answer = "we work with cat";
+                sendMenu(chatId);
+                message.setText(answer);
+            }
+
+            message.setMessageId(messageId);
+
+            if (callbackQuery.equals("information-button")) {
+                String answer = "we work with dog";
+                message.setText(answer);
             } else if (callbackQuery.equals("cat-button")) {
                 String answer = "we work with cat";
                 message.setText(answer);
             }
-
-            message.setMessageId(messageId); // И здесь
-
             try {
                 execute(message);
             } catch (TelegramApiException e) {
                 System.out.println(e);
             }
 
-            sendMenu(chatId);
+//            sendMenu(chatId);
         }
     }
+
 
 
     private void startCommandReceived(long chatId, String name) {

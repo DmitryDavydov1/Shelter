@@ -1,6 +1,6 @@
 package com.example.bot._for_shelter.service;
 
-import com.example.bot._for_shelter.buttons.Buttons;
+
 import com.example.bot._for_shelter.command.CommandContainer;
 import com.example.bot._for_shelter.command.SendBotMessageServiceImpl;
 import com.example.bot._for_shelter.config.BotConfig;
@@ -21,12 +21,12 @@ import java.util.List;
 public class TelegramBot extends TelegramLongPollingBot {
 
     final BotConfig config;
-    private Buttons buttons;
+
     private final CommandContainer commandContainer;
 
-    public TelegramBot(BotConfig config, Buttons buttons) {
+    public TelegramBot(BotConfig config) {
         this.config = config;
-        this.buttons = buttons;
+
         this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this));
         ;
     }

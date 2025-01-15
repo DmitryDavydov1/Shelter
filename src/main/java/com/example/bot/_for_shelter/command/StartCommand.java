@@ -20,9 +20,23 @@ public class StartCommand implements Command {
 
     @Override
     public void execute(Update update) {
+        long chatId = 0;
+        String answer = "Hi ";
+        int messageId = 0;
 
-        long chatId = update.getMessage().getChatId();
-        String answer = "Hi " + update.getMessage().getFrom().getFirstName() + ", nice to meet you";
+        // Проверяем, есть ли сообщение или обратный вызов
+        if (update.hasMessage()) {
+            chatId = update.getMessage().getChatId();
+            answer = "Hi " + update.getMessage().getFrom().getFirstName() + ", nice to meet you";
+            messageId = update.getMessage().getMessageId();
+        } else if (update.hasCallbackQuery()) {
+            chatId = update.getCallbackQuery().getMessage().getChatId();
+            answer = "Hi " + update.getCallbackQuery().getFrom().getFirstName() + ", nice to meet you";
+            messageId = update.getCallbackQuery().getMessage().getMessageId();
+        }
+
+        System.out.println(chatId);
+
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(chatId));
         message.setText(answer);
@@ -49,7 +63,7 @@ public class StartCommand implements Command {
         markupInLine.setKeyboard(rowsInLine);
         message.setReplyMarkup(markupInLine);
 
-        int messageId = update.getMessage().getMessageId();
+
         sendBotMessageService.sendMessage(message, messageId);
 
     }

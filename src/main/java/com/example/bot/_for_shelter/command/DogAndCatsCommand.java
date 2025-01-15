@@ -51,7 +51,7 @@ public class DogAndCatsCommand implements Command {
         var backButton = new InlineKeyboardButton();
         String backButtonButtonText = EmojiParser.parseToUnicode("Назад" + " :back:");
         backButton.setText(backButtonButtonText);
-        backButton.setCallbackData("back-menu-button");
+        backButton.setCallbackData("back-to-start-button");
 
         rowInLine1.add(informationButton);
         rowInLine2.add(petReportButtonButton);

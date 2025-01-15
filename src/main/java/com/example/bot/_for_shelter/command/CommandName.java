@@ -8,7 +8,9 @@ public enum CommandName {
     takeAnimal("takeAnimal-button"),
     petReport("petReport-button"),
     callVolunteer("callVolunteer-button"),
-    backToStartButton("back-to-start-button");
+    backToStartButton("back-to-start-button"),
+    menuForInformation("information-button"),;
+
 
 
     private final String commandName;

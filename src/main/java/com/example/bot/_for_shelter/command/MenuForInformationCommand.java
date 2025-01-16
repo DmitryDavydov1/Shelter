@@ -44,6 +44,11 @@ public class MenuForInformationCommand implements Command {
         timetableAndAddressAndDrivingDirectionsButton.setText(timetableAndAddressAndDrivingDirectionsButtonText);
 
 
+        var contactInformationButton = new InlineKeyboardButton();
+        contactInformationButton.setCallbackData("contact-information-button");
+        String contactInformationButtonButtonText = EmojiParser.parseToUnicode("Записать контактные данные :card_file_box:");
+        contactInformationButton.setText(contactInformationButtonButtonText);
+
         InlineKeyboardMarkup markupInLine = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine1 = new ArrayList<>();
@@ -57,9 +62,11 @@ public class MenuForInformationCommand implements Command {
         rowInLine1.add(backButton);
         rowInLine2.add(informationAboutShelterButton);
         rowInLine3.add(timetableAndAddressAndDrivingDirectionsButton);
+        rowInLine4.add(contactInformationButton);
 
         rowsInLine.add(rowInLine2);
         rowsInLine.add(rowInLine3);
+        rowsInLine.add(rowInLine4);
         rowsInLine.add(rowInLine1);
 
         markupInLine.setKeyboard(rowsInLine);

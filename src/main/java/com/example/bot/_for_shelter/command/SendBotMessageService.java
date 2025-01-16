@@ -6,4 +6,6 @@ public interface SendBotMessageService {
 
 
     void sendMessage(SendMessage message, Integer chatId);
+
+    void sendMessage(SendMessage message, Integer chatId, String command);
 }

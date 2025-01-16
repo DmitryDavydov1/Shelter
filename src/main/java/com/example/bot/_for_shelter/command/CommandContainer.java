@@ -17,6 +17,7 @@ public class CommandContainer {
         commandsMap.put(CAT.getCommandName(), new DogAndCatsCommand(sendBotMessageService));
         commandsMap.put(backToStartButton.getCommandName(), new StartCommand(sendBotMessageService));
         commandsMap.put(menuForInformation.getCommandName(), new MenuForInformationCommand(sendBotMessageService));
+        commandsMap.put(contactData.getCommandName(), new ContactDataCommand(sendBotMessageService));
         commandMap = commandsMap;
     }
 

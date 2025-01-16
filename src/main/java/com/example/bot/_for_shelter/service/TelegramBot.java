@@ -28,7 +28,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         this.config = config;
 
         this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this));
-        ;
+
     }
 
 

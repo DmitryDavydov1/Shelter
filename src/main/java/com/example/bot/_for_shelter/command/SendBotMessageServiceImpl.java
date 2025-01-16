@@ -21,20 +21,24 @@ public class SendBotMessageServiceImpl implements SendBotMessageService {
 
     @Override
     public void sendMessage(SendMessage message, Integer chatId) {
+        EditMessageText sendMessage = new EditMessageText();
+        sendMessage.setChatId(message.getChatId());
+        sendMessage.setText(message.getText());
+        sendMessage.setMessageId(chatId);
+        sendMessage.setReplyMarkup((InlineKeyboardMarkup) message.getReplyMarkup());
+        try {
+            bot.execute(sendMessage);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public void sendMessage(SendMessage message, Integer chatId, String command) {
         if (message.getText().startsWith("Hi")) {
             try {
                 bot.execute(message);
-            } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            EditMessageText sendMessage = new EditMessageText();
-            sendMessage.setChatId(message.getChatId());
-            sendMessage.setText(message.getText());
-            sendMessage.setMessageId(chatId);
-            sendMessage.setReplyMarkup((InlineKeyboardMarkup) message.getReplyMarkup());
-            try {
-                bot.execute(sendMessage);
             } catch (TelegramApiException e) {
                 throw new RuntimeException(e);
             }

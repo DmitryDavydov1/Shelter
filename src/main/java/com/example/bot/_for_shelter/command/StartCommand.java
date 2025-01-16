@@ -63,8 +63,10 @@ public class StartCommand implements Command {
         markupInLine.setKeyboard(rowsInLine);
         message.setReplyMarkup(markupInLine);
 
-
-        sendBotMessageService.sendMessage(message, messageId);
-
+        if (update.hasCallbackQuery()) {
+            sendBotMessageService.sendMessage(message, messageId);
+        } else {
+            sendBotMessageService.sendMessage(message, messageId, "start");
+        }
     }
 }

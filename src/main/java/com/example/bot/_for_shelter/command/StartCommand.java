@@ -29,6 +29,7 @@ public class StartCommand implements Command {
             chatId = update.getMessage().getChatId();
             answer = "Hi " + update.getMessage().getFrom().getFirstName() + ", nice to meet you";
             messageId = update.getMessage().getMessageId();
+            System.out.println(chatId);
         } else if (update.hasCallbackQuery()) {
             chatId = update.getCallbackQuery().getMessage().getChatId();
             answer = "Hi " + update.getCallbackQuery().getFrom().getFirstName() + ", nice to meet you";

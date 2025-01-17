@@ -24,4 +24,5 @@ public class CommandContainer {
     public Command retrieveCommand(String commandIdentifier) {
         return commandMap.get(commandIdentifier);
     }
+
 }

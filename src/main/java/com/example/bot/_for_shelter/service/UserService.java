@@ -17,6 +17,7 @@ public class UserService {
         botUser.setName(BotUserDTO.getName());
         botUser.setChatId(BotUserDTO.getChatId());
         botUser.setPhoneNumber(BotUserDTO.getPhoneNumber());
+
         userRepository.save(botUser);
         return botUser;
     }

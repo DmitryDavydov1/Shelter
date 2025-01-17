@@ -45,8 +45,11 @@ public class StartCommand implements Command {
         InlineKeyboardMarkup markupInLine = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine = new ArrayList<>();
+
+
         var dogButton = new InlineKeyboardButton();
         String dogButtonText = EmojiParser.parseToUnicode("Собаки" + " :dog:");
+
 
         dogButton.setText(dogButtonText);
         dogButton.setCallbackData("dog-button");

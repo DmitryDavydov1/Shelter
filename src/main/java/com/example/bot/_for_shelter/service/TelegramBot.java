@@ -4,18 +4,12 @@ package com.example.bot._for_shelter.service;
 import com.example.bot._for_shelter.command.CommandContainer;
 import com.example.bot._for_shelter.command.SendBotMessageServiceImpl;
 import com.example.bot._for_shelter.config.BotConfig;
-import com.vdurmont.emoji.EmojiParser;
+
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.telegram.telegrambots.meta.api.objects.Update;
+
 
 @Component
 public class TelegramBot extends TelegramLongPollingBot {

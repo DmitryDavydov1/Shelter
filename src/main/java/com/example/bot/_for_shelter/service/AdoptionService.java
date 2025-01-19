@@ -7,6 +7,7 @@ import com.example.bot._for_shelter.model.Pet;
 import com.example.bot._for_shelter.repository.AdoptionRepository;
 import com.example.bot._for_shelter.repository.PetRepository;
 import com.example.bot._for_shelter.repository.UserRepository;
+
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

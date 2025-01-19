@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Service
@@ -27,15 +25,8 @@ public class SendBotMessageServiceImpl implements SendBotMessageService {
         sendMessage.setChatId(message.getChatId());
         sendMessage.setText(message.getText());
         sendMessage.setMessageId(chatId);
-        if (message.getReplyMarkup() instanceof InlineKeyboardMarkup) {
-            sendMessage.setReplyMarkup((InlineKeyboardMarkup) message.getReplyMarkup());
-        } else {
-            try {
-                bot.execute(message);
-            } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        sendMessage.setReplyMarkup((InlineKeyboardMarkup) message.getReplyMarkup());
+
 
         try {
             bot.execute(sendMessage);
@@ -53,6 +44,15 @@ public class SendBotMessageServiceImpl implements SendBotMessageService {
             } catch (TelegramApiException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    @Override
+    public void sendMessageWithKeyboardMarkup(SendMessage message) {
+        try {
+            bot.execute(message);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
         }
     }
 }

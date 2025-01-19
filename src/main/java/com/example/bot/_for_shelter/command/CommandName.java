@@ -10,7 +10,8 @@ public enum CommandName {
     callVolunteer("callVolunteer-button"),
     backToStartButton("back-to-start-button"),
     menuForInformation("information-button"),
-    contactData("contact-information-button");
+    contactData("contact-information-button"),
+    writeContactAtBd("writeContactAtBd");
 
 
     private final String commandName;

@@ -47,7 +47,7 @@ public class ContactDataCommand implements Command {
         message.setText("Пожалуйста, отправьте ваш номер телефона:");
         message.setReplyMarkup(keyboardMarkup);
 
-        sendBotMessageService.sendMessage(message, messageId);
+        sendBotMessageService.sendMessageWithKeyboardMarkup(message);
     }
 }
 

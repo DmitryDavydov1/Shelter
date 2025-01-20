@@ -1,9 +1,8 @@
 package com.example.bot._for_shelter.repository;
 
 import com.example.bot._for_shelter.model.BotUser;
+import com.example.bot._for_shelter.model.Photo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<BotUser, Long> {
-
-    boolean existsByChatId(String chatId);
+public interface PhotoRepository extends JpaRepository<Photo, Long>  {
 }

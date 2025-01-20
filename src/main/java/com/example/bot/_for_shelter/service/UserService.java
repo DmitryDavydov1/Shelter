@@ -15,11 +15,13 @@ public class UserService {
 
     public BotUser addUser(BotUserDTO BotUserDTO) {
         BotUser botUser = new BotUser();
+        String chatId = BotUserDTO.getChatId();
         botUser.setName(BotUserDTO.getName());
-        botUser.setChatId(BotUserDTO.getChatId());
+        botUser.setChatId(chatId);
         botUser.setPhoneNumber(BotUserDTO.getPhoneNumber());
-
-        userRepository.save(botUser);
+        if (!userRepository.existsByChatId(chatId)){
+            userRepository.save(botUser);
+        }
         return botUser;
     }
 }

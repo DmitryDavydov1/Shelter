@@ -22,6 +22,7 @@ public class BotUser {
 
     private String phoneNumber;
 
+    private String condition;
 
     public BotUser() {
     }

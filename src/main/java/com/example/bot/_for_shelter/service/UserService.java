@@ -11,7 +11,7 @@ public class UserService {
 
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public BotUser addUser(BotUserDTO BotUserDTO) {
         BotUser botUser = new BotUser();
@@ -19,9 +19,21 @@ public class UserService {
         botUser.setName(BotUserDTO.getName());
         botUser.setChatId(chatId);
         botUser.setPhoneNumber(BotUserDTO.getPhoneNumber());
-        if (!userRepository.existsByChatId(chatId)){
+        botUser.setCondition("default");
+        if (!userRepository.existsByChatId(chatId)) {
             userRepository.save(botUser);
         }
         return botUser;
+    }
+
+
+    public void changeCondition(Long chatId, String newCondition) {
+        BotUser user = userRepository.findByChatId(String.valueOf(chatId));
+        user.setCondition(newCondition);
+        userRepository.save(user);
+    }
+
+    public String condition(Long chatId) {
+        return userRepository.findByChatId(String.valueOf(chatId)).getCondition();
     }
 }

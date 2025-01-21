@@ -4,8 +4,10 @@ package com.example.bot._for_shelter.service;
 import com.example.bot._for_shelter.command.CommandContainer;
 import com.example.bot._for_shelter.command.SendBotMessageServiceImpl;
 import com.example.bot._for_shelter.command.WriteContactAtBdCommand;
+import com.example.bot._for_shelter.command.WriteReportToBd;
 import com.example.bot._for_shelter.config.BotConfig;
 
+import com.example.bot._for_shelter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -15,6 +17,12 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
 
     final BotConfig config;
 
@@ -38,8 +46,6 @@ public class TelegramBot extends TelegramLongPollingBot {
         return config.getToken();
     }
 
-    @Autowired
-    UserService userService;
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -50,7 +56,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             commandContainer.retrieveCommand(update.getCallbackQuery().getData()).execute(update);
         }
         if (update.hasMessage() && update.getMessage().hasContact()) {
-            new WriteContactAtBdCommand(userService).execute(update);
+            new WriteContactAtBdCommand().execute(update);
         }
     }
 }

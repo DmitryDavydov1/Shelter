@@ -1,7 +1,6 @@
 package com.example.bot._for_shelter.command;
 
 import com.example.bot._for_shelter.service.UserService;
-import com.google.common.collect.ImmutableMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,8 +8,8 @@ import java.util.HashMap;
 
 import static com.example.bot._for_shelter.command.CommandName.*;
 
+@Component
 public class CommandContainer {
-
 
 
     private final HashMap<String, Command> commandMap;
@@ -23,6 +22,7 @@ public class CommandContainer {
         commandsMap.put(backToStartButton.getCommandName(), new StartCommand(sendBotMessageService));
         commandsMap.put(menuForInformation.getCommandName(), new MenuForInformationCommand(sendBotMessageService));
         commandsMap.put(contactData.getCommandName(), new ContactDataCommand(sendBotMessageService));
+        commandsMap.put(WriteReportToBd1.getCommandName(), new WriteReportToBd());
         commandMap = commandsMap;
     }
 

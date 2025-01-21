@@ -10,12 +10,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 public class WriteContactAtBdCommand implements Command {
 
-
-    private final UserService userService;
-
-    public WriteContactAtBdCommand(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired
+    UserService userService;
 
 
     @Override

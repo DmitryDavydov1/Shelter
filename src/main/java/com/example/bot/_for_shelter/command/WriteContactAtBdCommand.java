@@ -7,12 +7,16 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Contact;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-@Component
+
 public class WriteContactAtBdCommand implements Command {
 
-    @Autowired
-    UserService userService;
 
+
+    private final UserService userService;
+
+    public WriteContactAtBdCommand(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public void execute(Update update) {

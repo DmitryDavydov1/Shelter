@@ -11,6 +11,9 @@ import static com.example.bot._for_shelter.command.CommandName.*;
 @Component
 public class CommandContainer {
 
+    @Autowired
+    private WriteReportToBd writeReportToBd;
+
 
     private final HashMap<String, Command> commandMap;
 
@@ -22,7 +25,7 @@ public class CommandContainer {
         commandsMap.put(backToStartButton.getCommandName(), new StartCommand(sendBotMessageService));
         commandsMap.put(menuForInformation.getCommandName(), new MenuForInformationCommand(sendBotMessageService));
         commandsMap.put(contactData.getCommandName(), new ContactDataCommand(sendBotMessageService));
-        commandsMap.put(WriteReportToBd1.getCommandName(), new WriteReportToBd());
+        commandsMap.put(WriteReportToBd1.getCommandName(), writeReportToBd);
         commandMap = commandsMap;
     }
 

@@ -24,6 +24,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Autowired
     UserRepository userRepository;
 
+
     final BotConfig config;
 
     private final CommandContainer commandContainer;
@@ -56,7 +57,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             commandContainer.retrieveCommand(update.getCallbackQuery().getData()).execute(update);
         }
         if (update.hasMessage() && update.getMessage().hasContact()) {
-            new WriteContactAtBdCommand().execute(update);
+            new WriteContactAtBdCommand(userService).execute(update);
         }
     }
 }

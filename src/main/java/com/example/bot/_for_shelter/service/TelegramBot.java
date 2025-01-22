@@ -21,8 +21,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Autowired
     UserService userService;
 
-    @Autowired
-    UserRepository userRepository;
+
 
 
     final BotConfig config;
@@ -31,8 +30,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     public TelegramBot(BotConfig config) {
         this.config = config;
-
-        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this));
+        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), userService);
 
     }
 

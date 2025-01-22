@@ -2,8 +2,6 @@ package com.example.bot._for_shelter.command;
 
 import com.example.bot._for_shelter.model.BotUserDTO;
 import com.example.bot._for_shelter.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Contact;
 import org.telegram.telegrambots.meta.api.objects.Update;
 

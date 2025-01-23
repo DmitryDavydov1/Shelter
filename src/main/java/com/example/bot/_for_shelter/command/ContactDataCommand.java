@@ -1,6 +1,8 @@
 package com.example.bot._for_shelter.command;
 
 
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -9,8 +11,11 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.util.Collections;
 
-public class ContactDataCommand implements Command {
+import static com.example.bot._for_shelter.command.CommandName.contactData;
 
+@Component
+public class ContactDataCommand implements Command {
+    @Lazy
     private final SendBotMessageService sendBotMessageService;
 
     public ContactDataCommand(SendBotMessageService sendBotMessageService) {
@@ -49,5 +54,11 @@ public class ContactDataCommand implements Command {
 
         sendBotMessageService.sendMessageWithKeyboardMarkup(message);
     }
+
+    @Override
+    public boolean isSupport(String command) {
+        return command.equals(contactData.getCommandName());
+    }
+
 }
 

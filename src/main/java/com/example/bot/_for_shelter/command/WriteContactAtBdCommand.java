@@ -2,10 +2,13 @@ package com.example.bot._for_shelter.command;
 
 import com.example.bot._for_shelter.model.BotUserDTO;
 import com.example.bot._for_shelter.service.UserService;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Contact;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import static com.example.bot._for_shelter.command.CommandName.*;
 
+@Component
 public class WriteContactAtBdCommand implements Command {
 
 
@@ -26,5 +29,10 @@ public class WriteContactAtBdCommand implements Command {
         botUserDTO.setName(name);
         botUserDTO.setPhoneNumber(phoneNumber);
         userService.addUser(botUserDTO);
+    }
+
+    @Override
+    public boolean isSupport(String command) {
+        return command.equals(writeContactAtBd.getCommandName());
     }
 }

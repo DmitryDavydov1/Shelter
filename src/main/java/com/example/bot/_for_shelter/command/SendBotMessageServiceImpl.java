@@ -2,6 +2,7 @@ package com.example.bot._for_shelter.command;
 
 import com.example.bot._for_shelter.service.TelegramBot;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -14,6 +15,7 @@ public class SendBotMessageServiceImpl implements SendBotMessageService {
     private final TelegramBot bot;
 
     @Autowired
+    @Lazy
     public SendBotMessageServiceImpl(TelegramBot bot) {
         this.bot = bot;
     }

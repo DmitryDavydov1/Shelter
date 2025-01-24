@@ -1,13 +1,10 @@
 package com.example.bot._for_shelter.service;
 
 
-import com.example.bot._for_shelter.command.CommandContainer;
-import com.example.bot._for_shelter.command.SendBotMessageServiceImpl;
-import com.example.bot._for_shelter.command.WriteContactAtBdCommand;
-import com.example.bot._for_shelter.command.WriteReportToBd;
+import com.example.bot._for_shelter.command.*;
 import com.example.bot._for_shelter.config.BotConfig;
 
-import com.example.bot._for_shelter.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -15,23 +12,23 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 
+import java.util.List;
+
+import static com.example.bot._for_shelter.command.CommandName.writeContactAtBd;
+
+
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
-
-    @Autowired
-    UserService userService;
-
-
 
 
     final BotConfig config;
 
-    private final CommandContainer commandContainer;
 
-    public TelegramBot(BotConfig config) {
+    private final List<Command> commandList;
+
+    public TelegramBot(BotConfig config, List<Command> commandList) {
         this.config = config;
-        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), userService);
-
+        this.commandList = commandList;
     }
 
 
@@ -49,16 +46,29 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            commandContainer.retrieveCommand(update.getMessage().getText()).execute(update);
+            commandList.stream()
+                    .filter(command -> command.isSupport(update.getMessage().getText()))
+                    .forEach(command -> {
+                        command.execute(update);
+                    });
         }
         if (update.hasCallbackQuery()) {
-            commandContainer.retrieveCommand(update.getCallbackQuery().getData()).execute(update);
+            commandList.stream()
+                    .filter(command -> command.isSupport(update.getCallbackQuery().getData()))
+                    .forEach(command -> {
+                        command.execute(update);
+                    });
         }
         if (update.hasMessage() && update.getMessage().hasContact()) {
-            new WriteContactAtBdCommand(userService).execute(update);
+            commandList.stream()
+                    .filter(command -> command.isSupport(writeContactAtBd.getCommandName()))
+                    .forEach(command -> {
+                        command.execute(update);
+                    });
         }
     }
 }
+
 
 
 

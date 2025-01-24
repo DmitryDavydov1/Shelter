@@ -1,6 +1,7 @@
 package com.example.bot._for_shelter.command;
 
 import com.vdurmont.emoji.EmojiParser;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -9,6 +10,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.bot._for_shelter.command.CommandName.*;
+
+@Component
 public class MenuForInformationCommand implements Command {
     private final SendBotMessageService sendBotMessageService;
 
@@ -75,5 +79,10 @@ public class MenuForInformationCommand implements Command {
         sendMessage.setReplyMarkup(markupInLine);
         int messageId = update.getCallbackQuery().getMessage().getMessageId();
         sendBotMessageService.sendMessage(sendMessage, messageId);
+    }
+
+    @Override
+    public boolean isSupport(String command) {
+        return command.equals(menuForInformation.getCommandName());
     }
 }

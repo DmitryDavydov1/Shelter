@@ -17,4 +17,5 @@ public class Report {
     String chatId;
     private LocalTime time;
     boolean viewed;
+    boolean havePhoto;
 }

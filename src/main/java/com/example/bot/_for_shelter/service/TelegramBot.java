@@ -5,6 +5,7 @@ import com.example.bot._for_shelter.command.*;
 import com.example.bot._for_shelter.config.BotConfig;
 
 
+import com.example.bot._for_shelter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -23,12 +24,17 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     final BotConfig config;
 
-
+    private final StartCommand startCommand;
     private final List<Command> commandList;
+    private final UserRepository userRepository;
+    private final WriteReportToBd writeReportToBd;
 
-    public TelegramBot(BotConfig config, List<Command> commandList) {
+    public TelegramBot(BotConfig config, StartCommand startCommand, List<Command> commandList, UserRepository userRepository, WriteReportToBd writeReportToBd) {
         this.config = config;
+        this.startCommand = startCommand;
         this.commandList = commandList;
+        this.userRepository = userRepository;
+        this.writeReportToBd = writeReportToBd;
     }
 
 
@@ -46,25 +52,31 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            commandList.stream()
-                    .filter(command -> command.isSupport(update.getMessage().getText()))
-                    .forEach(command -> {
-                        command.execute(update);
-                    });
-        }
-        if (update.hasCallbackQuery()) {
-            commandList.stream()
-                    .filter(command -> command.isSupport(update.getCallbackQuery().getData()))
-                    .forEach(command -> {
-                        command.execute(update);
-                    });
-        }
-        if (update.hasMessage() && update.getMessage().hasContact()) {
-            commandList.stream()
-                    .filter(command -> command.isSupport(writeContactAtBd.getCommandName()))
-                    .forEach(command -> {
-                        command.execute(update);
-                    });
+            if (update.getMessage().getText().equals("/start")) {
+                startCommand.execute(update);
+                return;
+            }
+
+            String chatId = update.getMessage().getChatId().toString();
+            String condition = userRepository.findByChatId(chatId).getCondition();
+            if (!condition.equals("default")) {
+                writeReportToBd.execute(update);
+            }
+
+            if (update.hasCallbackQuery()) {
+                commandList.stream()
+                        .filter(command -> command.isSupport(update.getCallbackQuery().getData()))
+                        .forEach(command -> {
+                            command.execute(update);
+                        });
+            }
+            if (update.hasMessage() && update.getMessage().hasContact()) {
+                commandList.stream()
+                        .filter(command -> command.isSupport(writeContactAtBd.getCommandName()))
+                        .forEach(command -> {
+                            command.execute(update);
+                        });
+            }
         }
     }
 }

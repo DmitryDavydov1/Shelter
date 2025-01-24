@@ -21,8 +21,8 @@ public class WriteReportToBd implements Command {
 
     @Override
     public void execute(Update update) {
-        if (update.hasCallbackQuery()) {
-            Long chatId = update.getCallbackQuery().getMessage().getChatId();
+         if (update.hasMessage() && update.getMessage().hasText()) {
+            Long chatId = update.getMessage().getChatId();
             userService.changeCondition(chatId, "report");
         }
     }

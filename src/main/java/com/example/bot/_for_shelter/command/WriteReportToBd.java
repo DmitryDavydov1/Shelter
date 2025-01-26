@@ -32,7 +32,6 @@ public class WriteReportToBd implements Command {
     private final TelegramBot telegramBot;
     private final PhotoTgRepository photoTgRepository;
     private final ReportRepository reportRepository;
-    private final String botToken = "7325728181:AAHXOsha4hsxDQXaSY0k3c54x13dWVwLEu8";
 
 
     @Autowired

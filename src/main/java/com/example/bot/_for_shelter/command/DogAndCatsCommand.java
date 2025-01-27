@@ -47,6 +47,7 @@ public class DogAndCatsCommand implements Command {
         petReportButtonButton.setText(petReportButtonText);
         petReportButtonButton.setCallbackData("petReport-button");
 
+
         var callVolunteerButton = new InlineKeyboardButton();
         String callVolunteerButtonText = EmojiParser.parseToUnicode("Позвать волонтера" + " :boy:");
         callVolunteerButton.setText(callVolunteerButtonText);

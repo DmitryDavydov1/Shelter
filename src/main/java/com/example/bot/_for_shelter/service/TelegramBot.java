@@ -61,19 +61,26 @@ public class TelegramBot extends TelegramLongPollingBot {
             writeReportToBd.execute(update);
         }
 
+
         if (update.hasMessage() && update.getMessage().hasText()) {
-            if (update.getMessage().getText().equals("/start")) {
-                startCommand.execute(update);
-                return;
-            }
-
-            String chatId = update.getMessage().getChatId().toString();
-            String condition = userRepository.findByChatId(chatId).getCondition();
-            if (!condition.equals("default")) {
-                writeReportToBd.execute(update);
-
+            boolean commandExecuted = commandList.stream()
+                    .filter(command -> command.isSupport(update.getMessage().getText()))
+                    .findAny() // Находит любую подходящую команду
+                    .map(command -> {
+                        command.execute(update); // Выполняет команду
+                        return true; // Возвращает true, если команда была выполнена
+                    })
+                    .orElse(false);
+            if (!commandExecuted) {
+                String chatId = update.getMessage().getChatId().toString();
+                String condition = userRepository.findByChatId(chatId).getCondition();
+                if (!condition.equals("default")) {
+                    writeReportToBd.execute(update);
+                }
             }
         }
+
+
         if (update.hasCallbackQuery()) {
             commandList.stream()
                     .filter(command -> command.isSupport(update.getCallbackQuery().getData()))
@@ -82,6 +89,8 @@ public class TelegramBot extends TelegramLongPollingBot {
                         command.execute(update);
                     });
         }
+
+
         if (update.hasMessage() && update.getMessage().hasContact()) {
             commandList.stream()
                     .filter(command -> command.isSupport(writeContactAtBd.getCommandName()))

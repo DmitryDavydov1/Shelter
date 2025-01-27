@@ -6,6 +6,7 @@ import com.example.bot._for_shelter.model.Report;
 import com.example.bot._for_shelter.model.ReportDTO;
 import com.example.bot._for_shelter.repository.PhotoTgRepository;
 import com.example.bot._for_shelter.repository.ReportRepository;
+import com.example.bot._for_shelter.repository.UserRepository;
 import com.example.bot._for_shelter.service.ReportService;
 
 import com.example.bot._for_shelter.service.TelegramBot;
@@ -34,6 +35,7 @@ public class WriteReportToBd implements Command {
     private final ReportRepository reportRepository;
 
 
+
     @Autowired
     @Lazy
     public WriteReportToBd(UserService userService, ReportService reportService, SendBotMessageService sendBotMessageService, TelegramBot bot, TelegramBot telegramBot, PhotoTgRepository photoTgRepository, ReportRepository reportRepository) {
@@ -44,17 +46,25 @@ public class WriteReportToBd implements Command {
         this.telegramBot = telegramBot;
         this.photoTgRepository = photoTgRepository;
         this.reportRepository = reportRepository;
+
     }
 
     @Override
     public void execute(Update update) {
         if (update.hasCallbackQuery()) {
-            Long chatId = update.getCallbackQuery().getMessage().getChatId();
-            userService.changeCondition(chatId, "report");
             SendMessage message = new SendMessage();
+            Long chatId = update.getCallbackQuery().getMessage().getChatId();
+            if (reportRepository.existsByChatIdAndHavePhoto(String.valueOf(chatId), false)) {
+                message.setText("прежде чем отправлять фотку для нового репорта, сначала отправь фотку для прошлого");
+                message.setChatId(String.valueOf(chatId));
+                sendBotMessageService.sendMessageWithKeyboardMarkup(message);
+                return;
+            }
+            userService.changeCondition(chatId, "report");
             message.setChatId(String.valueOf(chatId));
             message.setText("Напиши свой текстовый отчет");
             sendBotMessageService.sendMessageWithKeyboardMarkup(message);
+
 
         }
         if (update.hasMessage() && update.getMessage().hasText()) {

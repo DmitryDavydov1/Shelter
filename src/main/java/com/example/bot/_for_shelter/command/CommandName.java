@@ -12,7 +12,8 @@ public enum CommandName {
     menuForInformation("information-button"),
     contactData("contact-information-button"),
     writeContactAtBd("writeContactAtBd"),
-    WriteReportToBd1("petReport-button");
+    WriteReportToBd1("petReport-button"),
+    takeAnimalFromShelter("/takeAnimal");
 
 
     private final String commandName;

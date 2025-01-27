@@ -35,7 +35,6 @@ public class WriteReportToBd implements Command {
     private final ReportRepository reportRepository;
 
 
-
     @Autowired
     @Lazy
     public WriteReportToBd(UserService userService, ReportService reportService, SendBotMessageService sendBotMessageService, TelegramBot bot, TelegramBot telegramBot, PhotoTgRepository photoTgRepository, ReportRepository reportRepository) {
@@ -96,6 +95,7 @@ public class WriteReportToBd implements Command {
             photoTg.setChatId(String.valueOf(chat_id));
             photoTg.setFileId(f_id);
             photoTg.setReport(report);
+            photoTg.setViewed(false);
             photoTgRepository.save(photoTg);
 
             report.setHavePhoto(true);

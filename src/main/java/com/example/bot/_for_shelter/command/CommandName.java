@@ -2,7 +2,7 @@ package com.example.bot._for_shelter.command;
 
 public enum CommandName {
 
-    START("/start"),
+    START("user-button"),
     CAT("dog-button"),
     DOG("cat-button"),
     takeAnimal("takeAnimal-button"),
@@ -13,7 +13,9 @@ public enum CommandName {
     contactData("contact-information-button"),
     writeContactAtBd("writeContactAtBd"),
     WriteReportToBd1("petReport-button"),
-    takeAnimalFromShelter("/takeAnimal");
+    takeAnimalFromShelter("/takeAnimal"),
+    AdminOrUser("/start"),
+    WatchReportsByAdmin("/watchCommand");
 
 
     private final String commandName;

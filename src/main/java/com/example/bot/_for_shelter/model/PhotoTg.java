@@ -19,4 +19,6 @@ public class PhotoTg {
     @OneToOne
     private Report report;
 
+    private boolean viewed;
+
 }

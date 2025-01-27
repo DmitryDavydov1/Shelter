@@ -14,12 +14,12 @@ import java.util.List;
 import static com.example.bot._for_shelter.command.CommandName.*;
 
 @Component
-public class showsAllAnimals implements Command {
+public class ShowsAllAnimals implements Command {
 
     private final PetRepository petRepository;
     private final SendBotMessageService sendBotMessageService;
 
-    public showsAllAnimals(PetRepository petRepository, SendBotMessageService sendBotMessageService) {
+    public ShowsAllAnimals(PetRepository petRepository, SendBotMessageService sendBotMessageService) {
         this.petRepository = petRepository;
         this.sendBotMessageService = sendBotMessageService;
     }

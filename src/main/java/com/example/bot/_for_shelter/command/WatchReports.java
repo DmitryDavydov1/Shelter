@@ -46,7 +46,7 @@ public class WatchReports implements Command {
             String informationButtonText = EmojiParser.parseToUnicode("Прислать предупреждение" + " :cat2:");
             var warningButton = new InlineKeyboardButton();
             warningButton.setText(informationButtonText);
-            warningButton.setCallbackData("Плохой-репорт-" + photoTg.getChatId());
+            warningButton.setCallbackData("Плохой-репорт-" + photoTg.getChatId() + "-" + photoTg.getId());
             var viewedIt = new InlineKeyboardButton();
             viewedIt.setText("Просмотрел");
             viewedIt.setCallbackData("Просмотрел-" + photoTg.getId());

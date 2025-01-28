@@ -28,11 +28,8 @@ public class ContactDataCommand implements Command {
     public void execute(Update update) {
 
         Long chatId = update.getCallbackQuery().getMessage().getChatId();
-        String messageText = update.getCallbackQuery().getMessage().getText();
-        int messageId = update.getCallbackQuery().getMessage().getMessageId();
 
-        String name = update.getCallbackQuery().getMessage().getFrom().getFirstName();
-        String lastName = update.getCallbackQuery().getMessage().getFrom().getLastName();
+
 
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
         KeyboardButton contactButton = new KeyboardButton();

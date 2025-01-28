@@ -33,4 +33,8 @@ public class AdoptionService {
         adoption.setCurrentDay(0);
         return adoptionRepository.save(adoption);
     }
+
+    public boolean userHaveAdoptionOrNo(Long userId) {
+        return adoptionRepository.existsByBotUserId(userId);
+    }
 }

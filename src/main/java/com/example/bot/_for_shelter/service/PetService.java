@@ -20,4 +20,10 @@ public class PetService {
         pet.setHaveOwner(false);
         return petRepository.save(pet);
     }
+
+    public void setHaveOwner(Long petId) {
+        Pet pet = petRepository.findById(petId).orElse(null);
+        pet.setHaveOwner(true);
+        petRepository.save(pet);
+    }
 }

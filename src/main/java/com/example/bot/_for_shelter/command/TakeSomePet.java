@@ -1,12 +1,17 @@
 package com.example.bot._for_shelter.command;
 
 import com.example.bot._for_shelter.model.AdoptionDTO;
+import com.example.bot._for_shelter.model.BotUser;
 import com.example.bot._for_shelter.model.Pet;
+import com.example.bot._for_shelter.repository.AdoptionRepository;
 import com.example.bot._for_shelter.repository.PetRepository;
 import com.example.bot._for_shelter.repository.UserRepository;
 import com.example.bot._for_shelter.service.AdoptionService;
+import com.example.bot._for_shelter.service.PetService;
 import com.example.bot._for_shelter.service.UserService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.regex.Matcher;
@@ -18,12 +23,14 @@ public class TakeSomePet implements Command {
 
     private final AdoptionService adoptionService;
     private final UserRepository userRepository;
-    private final PetRepository petRepository;
+    private final SendBotMessageService sendBotMessageService;
+    private final PetService petService;
 
-    public TakeSomePet(AdoptionService adoptionService, UserRepository userRepository, PetRepository petRepository) {
+    public TakeSomePet(AdoptionService adoptionService, UserRepository userRepository, SendBotMessageService sendBotMessageService, PetService petService) {
         this.adoptionService = adoptionService;
         this.userRepository = userRepository;
-        this.petRepository = petRepository;
+        this.sendBotMessageService = sendBotMessageService;
+        this.petService = petService;
     }
 
     @Override
@@ -33,19 +40,22 @@ public class TakeSomePet implements Command {
         Pattern pattern = Pattern.compile("(.*-)(\\d+)$");
         Matcher matcher = pattern.matcher(command);
 
-        if (matcher.find()) {
-            AdoptionDTO adoptionDTO = new AdoptionDTO();
-            adoptionDTO.setPet_id(Long.valueOf(matcher.group(2))); // Здесь мы уверены, что есть совпадение
-            Long userId = userRepository.findByChatId(chatId).getId();
-            adoptionDTO.setBot_user_id(Long.valueOf(userId));
-            Pet pet = petRepository.findById(Long.valueOf(matcher.group(2))).orElse(null);
-            pet.setHaveOwner(true);
-            petRepository.save(pet);
-            adoptionService.addAdoption(adoptionDTO);
 
-        } else {
-            // Логируем или обрабатываем случай, когда совпадение не найдено
-            System.out.println("No match found for command: " + command);
+        if (matcher.find()) {
+            Long userId = userRepository.findByChatId(chatId).getId();
+            if (adoptionService.userHaveAdoptionOrNo(userId)) {
+                SendMessage sendMessage = new SendMessage();
+                sendMessage.setChatId(chatId);
+                sendMessage.setText("Уже есть");
+                sendBotMessageService.sendMessageWithKeyboardMarkup(sendMessage);
+            } else {
+                Long petId = Long.parseLong(matcher.group(2));
+                AdoptionDTO adoptionDTO = new AdoptionDTO();
+                adoptionDTO.setPet_id(petId); // Здесь мы уверены, что есть совпадение
+                adoptionDTO.setBot_user_id(userId);
+                adoptionService.addAdoption(adoptionDTO);
+                petService.setHaveOwner(petId);
+            }
         }
     }
 
@@ -58,7 +68,6 @@ public class TakeSomePet implements Command {
             String group1 = matcher.group(1);
             return group1.equals("take-this-animal-");
         } else {
-            // Логируем или обрабатываем случай, когда совпадение не найдено
             System.out.println("No match found for command: " + command);
         }
 

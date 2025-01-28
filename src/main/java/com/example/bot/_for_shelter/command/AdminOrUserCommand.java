@@ -1,7 +1,6 @@
 package com.example.bot._for_shelter.command;
 
 import com.vdurmont.emoji.EmojiParser;
-import org.aspectj.bridge.ICommand;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;

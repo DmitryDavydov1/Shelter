@@ -7,6 +7,7 @@ import com.example.bot._for_shelter.model.ReportDTO;
 import com.example.bot._for_shelter.repository.PhotoTgRepository;
 import com.example.bot._for_shelter.repository.ReportRepository;
 import com.example.bot._for_shelter.repository.UserRepository;
+import com.example.bot._for_shelter.service.PhotoTgService;
 import com.example.bot._for_shelter.service.ReportService;
 
 import com.example.bot._for_shelter.service.TelegramBot;
@@ -31,21 +32,21 @@ public class WriteReportToBd implements Command {
     private final ReportService reportService;
     private final SendBotMessageService sendBotMessageService;
     private final TelegramBot telegramBot;
-    private final PhotoTgRepository photoTgRepository;
     private final ReportRepository reportRepository;
+    private final PhotoTgService photoTgService;
 
 
     @Autowired
     @Lazy
-    public WriteReportToBd(UserService userService, ReportService reportService, SendBotMessageService sendBotMessageService, TelegramBot bot, TelegramBot telegramBot, PhotoTgRepository photoTgRepository, ReportRepository reportRepository) {
+    public WriteReportToBd(UserService userService, ReportService reportService, SendBotMessageService sendBotMessageService, TelegramBot telegramBot,
+                           ReportRepository reportRepository, PhotoTgService photoTgService) {
         this.userService = userService;
         this.reportService = reportService;
         this.sendBotMessageService = sendBotMessageService;
 
         this.telegramBot = telegramBot;
-        this.photoTgRepository = photoTgRepository;
         this.reportRepository = reportRepository;
-
+        this.photoTgService = photoTgService;
     }
 
     @Override
@@ -91,12 +92,7 @@ public class WriteReportToBd implements Command {
                     .photo(new InputFile(f_id))
                     .build();
             Report report = reportRepository.findByChatIdAndHavePhoto(String.valueOf(chat_id), false);
-            PhotoTg photoTg = new PhotoTg();
-            photoTg.setChatId(String.valueOf(chat_id));
-            photoTg.setFileId(f_id);
-            photoTg.setReport(report);
-            photoTg.setViewed(false);
-            photoTgRepository.save(photoTg);
+            photoTgService.addPhotoTg(String.valueOf(chat_id), f_id, report);
 
             report.setHavePhoto(true);
             reportRepository.save(report);

@@ -1,6 +1,8 @@
 package com.example.bot._for_shelter.command;
 
 import com.example.bot._for_shelter.model.AdoptionDTO;
+import com.example.bot._for_shelter.model.Pet;
+import com.example.bot._for_shelter.repository.PetRepository;
 import com.example.bot._for_shelter.repository.UserRepository;
 import com.example.bot._for_shelter.service.AdoptionService;
 import com.example.bot._for_shelter.service.UserService;
@@ -16,10 +18,12 @@ public class TakeSomePet implements Command {
 
     private final AdoptionService adoptionService;
     private final UserRepository userRepository;
+    private final PetRepository petRepository;
 
-    public TakeSomePet(AdoptionService adoptionService, UserRepository userRepository) {
+    public TakeSomePet(AdoptionService adoptionService, UserRepository userRepository, PetRepository petRepository) {
         this.adoptionService = adoptionService;
         this.userRepository = userRepository;
+        this.petRepository = petRepository;
     }
 
     @Override
@@ -34,7 +38,11 @@ public class TakeSomePet implements Command {
             adoptionDTO.setPet_id(Long.valueOf(matcher.group(2))); // Здесь мы уверены, что есть совпадение
             Long userId = userRepository.findByChatId(chatId).getId();
             adoptionDTO.setBot_user_id(Long.valueOf(userId));
+            Pet pet = petRepository.findById(Long.valueOf(matcher.group(2))).orElse(null);
+            pet.setHaveOwner(true);
+            petRepository.save(pet);
             adoptionService.addAdoption(adoptionDTO);
+
         } else {
             // Логируем или обрабатываем случай, когда совпадение не найдено
             System.out.println("No match found for command: " + command);

@@ -28,7 +28,7 @@ public class ShowsAllAnimals implements Command {
     public void execute(Update update) {
 
 
-        petRepository.findAll().forEach(pet -> {
+        petRepository.findAllByHaveOwner(false).forEach(pet -> {
             SendMessage sendMessage = new SendMessage();
             InlineKeyboardMarkup markupInLine = new InlineKeyboardMarkup();
             List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();

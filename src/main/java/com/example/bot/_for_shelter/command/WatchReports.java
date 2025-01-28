@@ -24,6 +24,7 @@ public class WatchReports implements Command {
     private final PhotoTgRepository photoTgRepository;
     private final SendBotMessageService sendBotMessageService;
     private final TelegramBot telegramBot;
+
     @Autowired
     @Lazy
     public WatchReports(PhotoTgRepository photoTgRepository, SendBotMessageService sendBotMessageService, TelegramBot telegramBot) {
@@ -34,7 +35,7 @@ public class WatchReports implements Command {
 
     @Override
     public void execute(Update update) {
-        List<PhotoTg> all = photoTgRepository.findAll();
+        List<PhotoTg> all = photoTgRepository.findAllByViewed(false);
         all.forEach(photoTg -> {
             String chatId = update.getMessage().getChatId().toString();
             SendMessage sendMessage = new SendMessage();
@@ -45,10 +46,10 @@ public class WatchReports implements Command {
             String informationButtonText = EmojiParser.parseToUnicode("Прислать предупреждение" + " :cat2:");
             var warningButton = new InlineKeyboardButton();
             warningButton.setText(informationButtonText);
-            warningButton.setCallbackData("просмотрел");
+            warningButton.setCallbackData("Плохой-репорт-" + photoTg.getChatId());
             var viewedIt = new InlineKeyboardButton();
             viewedIt.setText("Просмотрел");
-            viewedIt.setCallbackData("просмотрел" + photoTg.getId());
+            viewedIt.setCallbackData("Просмотрел-" + photoTg.getId());
             rowInLine1.add(warningButton);
             rowInLine1.add(viewedIt);
             rowsInLine.add(rowInLine1);

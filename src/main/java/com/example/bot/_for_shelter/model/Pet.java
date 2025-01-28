@@ -14,7 +14,7 @@ import lombok.ToString;
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String nickname;
     private int age;
     private int weight;
@@ -22,6 +22,7 @@ public class Pet {
 
     private int height;
 
+    private boolean haveOwner;
 
     public Pet() {
     }

@@ -15,7 +15,9 @@ public enum CommandName {
     WriteReportToBd1("petReport-button"),
     takeAnimalFromShelter("/takeAnimal"),
     AdminOrUser("/start"),
-    WatchReportsByAdmin("/watchCommand");
+    WatchReportsByAdmin("/watchCommand"),
+    ReportWasViewed("report-was-viewed"),
+    SendWarning("send-warning");
 
 
     private final String commandName;

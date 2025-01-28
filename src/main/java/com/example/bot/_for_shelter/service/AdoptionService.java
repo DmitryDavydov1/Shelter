@@ -23,9 +23,9 @@ public class AdoptionService {
 
     public Adoption addAdoption(AdoptionDTO adoptionDTO) {
         Adoption adoption = new Adoption();
-        Pet pet = petRepository.findById(Long.valueOf(adoptionDTO.getPet_id()))
+        Pet pet = petRepository.findById(adoptionDTO.getPet_id())
                 .orElseThrow(() -> new EntityNotFoundException("Pet not found with ID: " + adoptionDTO.getPet_id()));
-        BotUser botUser = userRepository.findById(Long.valueOf(adoptionDTO.getPet_id()))
+        BotUser botUser = userRepository.findById(adoptionDTO.getBot_user_id())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + adoptionDTO.getBot_user_id()));
         adoption.setPet(pet);
         adoption.setBotUser(botUser);

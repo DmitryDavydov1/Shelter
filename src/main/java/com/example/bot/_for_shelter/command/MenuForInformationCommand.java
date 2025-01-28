@@ -24,9 +24,12 @@ public class MenuForInformationCommand implements Command {
 
     @Override
     public void execute(Update update) {
+        int messageId = update.getCallbackQuery().getMessage().getMessageId();
         long chatId = update.getCallbackQuery().getMessage().getChatId();
-        SendMessage sendMessage = new SendMessage();
+
+
         String answer = "Добро пожаловать в приют для животных";
+        SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
         sendMessage.setText(answer);
 
@@ -43,7 +46,6 @@ public class MenuForInformationCommand implements Command {
 
         var timetableAndAddressAndDrivingDirectionsButton = new InlineKeyboardButton();
         timetableAndAddressAndDrivingDirectionsButton.setCallbackData("timetable-and-address-and-driving-directions-button");
-//        String timetableAndAddressAndDrivingDirectionsButtonText = EmojiParser.parseToUnicode("Работаем с 8 до 19,\n Адрес - Улица нурстултана Назарбаева \n Cхема проезда:");
         String timetableAndAddressAndDrivingDirectionsButtonText = EmojiParser.parseToUnicode("График, Адрес, Схема проезда");
         timetableAndAddressAndDrivingDirectionsButton.setText(timetableAndAddressAndDrivingDirectionsButtonText);
 
@@ -59,9 +61,7 @@ public class MenuForInformationCommand implements Command {
         List<InlineKeyboardButton> rowInLine2 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine3 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine4 = new ArrayList<>();
-        List<InlineKeyboardButton> rowInLine5 = new ArrayList<>();
-        List<InlineKeyboardButton> rowInLine6 = new ArrayList<>();
-        List<InlineKeyboardButton> rowInLine7 = new ArrayList<>();
+
 
         rowInLine1.add(backButton);
         rowInLine2.add(informationAboutShelterButton);
@@ -77,7 +77,6 @@ public class MenuForInformationCommand implements Command {
 
 
         sendMessage.setReplyMarkup(markupInLine);
-        int messageId = update.getCallbackQuery().getMessage().getMessageId();
         sendBotMessageService.sendMessage(sendMessage, messageId);
     }
 

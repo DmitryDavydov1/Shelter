@@ -4,18 +4,21 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalTime;
-
 @Setter
 @Getter
 @Entity
-public class Report {
+public class PhotoTg {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    String text;
-    String chatId;
-    private LocalTime time;
-    boolean viewed;
-    boolean havePhoto;
+    private Long id;
+
+    private String chatId;
+
+    private String fileId;
+
+    @OneToOne
+    private Report report;
+
+    private boolean viewed;
+
 }

@@ -31,9 +31,9 @@ public class DogAndCatsCommand implements Command {
         List<InlineKeyboardButton> rowInLine3 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine4 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine5 = new ArrayList<>();
+
         var informationButton = new InlineKeyboardButton();
         String informationButtonText = EmojiParser.parseToUnicode("Узнать информацию о приюте" + " :information_source:");
-
         informationButton.setText(informationButtonText);
         informationButton.setCallbackData("information-button");
 
@@ -46,6 +46,7 @@ public class DogAndCatsCommand implements Command {
         String petReportButtonText = EmojiParser.parseToUnicode("Прислать отчет о питомце" + " :dog:");
         petReportButtonButton.setText(petReportButtonText);
         petReportButtonButton.setCallbackData("petReport-button");
+
 
         var callVolunteerButton = new InlineKeyboardButton();
         String callVolunteerButtonText = EmojiParser.parseToUnicode("Позвать волонтера" + " :boy:");

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.time.LocalTime;
+
 @Service
 public class ReportService {
 
@@ -21,6 +22,7 @@ public class ReportService {
         report.setChatId(reportDTO.getChatId());
         report.setViewed(false);
         report.setTime(LocalTime.now());
+        report.setHavePhoto(false);
         reportRepository.save(report);
     }
 }

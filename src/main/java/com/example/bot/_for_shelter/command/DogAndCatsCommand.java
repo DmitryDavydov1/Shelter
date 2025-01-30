@@ -1,6 +1,7 @@
 package com.example.bot._for_shelter.command;
 
 import com.vdurmont.emoji.EmojiParser;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -9,6 +10,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.bot._for_shelter.command.CommandName.*;
+
+@Component
 public class DogAndCatsCommand implements Command {
     @Override
     public void execute(Update update) {
@@ -27,9 +31,9 @@ public class DogAndCatsCommand implements Command {
         List<InlineKeyboardButton> rowInLine3 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine4 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine5 = new ArrayList<>();
+
         var informationButton = new InlineKeyboardButton();
         String informationButtonText = EmojiParser.parseToUnicode("Узнать информацию о приюте" + " :information_source:");
-
         informationButton.setText(informationButtonText);
         informationButton.setCallbackData("information-button");
 
@@ -42,6 +46,7 @@ public class DogAndCatsCommand implements Command {
         String petReportButtonText = EmojiParser.parseToUnicode("Прислать отчет о питомце" + " :dog:");
         petReportButtonButton.setText(petReportButtonText);
         petReportButtonButton.setCallbackData("petReport-button");
+
 
         var callVolunteerButton = new InlineKeyboardButton();
         String callVolunteerButtonText = EmojiParser.parseToUnicode("Позвать волонтера" + " :boy:");
@@ -79,5 +84,10 @@ public class DogAndCatsCommand implements Command {
         this.sendBotMessageService = sendBotMessageService;
 
 
+    }
+
+    @Override
+    public boolean isSupport(String command) {
+        return command.equals(DOG.getCommandName()) || command.equals(CAT.getCommandName());
     }
 }

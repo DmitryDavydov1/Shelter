@@ -10,7 +10,7 @@ import lombok.Setter;
 public class Adoption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @OneToOne
     private Pet pet;
     @OneToOne

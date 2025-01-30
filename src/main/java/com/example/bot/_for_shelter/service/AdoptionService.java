@@ -153,4 +153,9 @@ public class AdoptionService {
         markupInLine.setKeyboard(rowsInLine);
         return markupInLine;
     }
+
+    public boolean findByChatId(Long chatId) {
+        return adoptionRepository.findAll().stream()
+                .anyMatch(adoption -> adoption.getBotUser().getChatId().equals(String.valueOf(chatId)));
+    }
 }

@@ -7,11 +7,8 @@ import com.example.bot._for_shelter.model.ReportDTO;
 import com.example.bot._for_shelter.repository.PhotoTgRepository;
 import com.example.bot._for_shelter.repository.ReportRepository;
 import com.example.bot._for_shelter.repository.UserRepository;
-import com.example.bot._for_shelter.service.PhotoTgService;
-import com.example.bot._for_shelter.service.ReportService;
+import com.example.bot._for_shelter.service.*;
 
-import com.example.bot._for_shelter.service.TelegramBot;
-import com.example.bot._for_shelter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -34,12 +31,13 @@ public class WriteReportToBd implements Command {
     private final TelegramBot telegramBot;
     private final ReportRepository reportRepository;
     private final PhotoTgService photoTgService;
+    private final AdoptionService adoptionService;
 
 
     @Autowired
     @Lazy
     public WriteReportToBd(UserService userService, ReportService reportService, SendBotMessageService sendBotMessageService, TelegramBot telegramBot,
-                           ReportRepository reportRepository, PhotoTgService photoTgService) {
+                           ReportRepository reportRepository, PhotoTgService photoTgService, AdoptionService adoptionService) {
         this.userService = userService;
         this.reportService = reportService;
         this.sendBotMessageService = sendBotMessageService;
@@ -47,6 +45,7 @@ public class WriteReportToBd implements Command {
         this.telegramBot = telegramBot;
         this.reportRepository = reportRepository;
         this.photoTgService = photoTgService;
+        this.adoptionService = adoptionService;
     }
 
     @Override
@@ -54,6 +53,12 @@ public class WriteReportToBd implements Command {
         if (update.hasCallbackQuery()) {
             SendMessage message = new SendMessage();
             Long chatId = update.getCallbackQuery().getMessage().getChatId();
+            if (!adoptionService.findByChatId(chatId)) {
+                message.setChatId(String.valueOf(chatId));
+                message.setText("Сначала усынови кого-то");
+                sendBotMessageService.sendMessageWithKeyboardMarkup(message);
+                return;
+            }
             if (reportRepository.existsByChatIdAndHavePhoto(String.valueOf(chatId), false)) {
                 message.setText("прежде чем отправлять фотку для нового репорта, сначала отправь фотку для прошлого");
                 message.setChatId(String.valueOf(chatId));

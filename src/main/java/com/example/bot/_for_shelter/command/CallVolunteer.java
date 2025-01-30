@@ -22,13 +22,10 @@ public class CallVolunteer implements Command {
 
 
     private final SendBotMessageService sendBotMessageService;
-    private final TelegramBot telegramBot;
 
-    @Autowired
-    @Lazy
-    public CallVolunteer(SendBotMessageService sendBotMessageService, TelegramBot telegramBot) {
+
+    public CallVolunteer(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;
-        this.telegramBot = telegramBot;
     }
 
     @Override
@@ -47,7 +44,7 @@ public class CallVolunteer implements Command {
         var informationButton = new InlineKeyboardButton();
         String informationButtonText = EmojiParser.parseToUnicode("Назад" + " :back:");
         informationButton.setText(informationButtonText);
-        informationButton.setCallbackData("back-to-start-button");
+        informationButton.setCallbackData("dog-button");
 
 
         rowInLine1.add(informationButton);
@@ -58,12 +55,7 @@ public class CallVolunteer implements Command {
         markupInLine.setKeyboard(rowsInLine);
         message.setReplyMarkup(markupInLine);
         sendBotMessageService.sendMessage(message, messageId);
-        SendPhoto msg = SendPhoto
-                .builder()
-                .chatId(update.getCallbackQuery().getMessage().getChatId().toString())
-                .photo(new InputFile("AgACAgIAAxkBAAIFRGebPi0gntIu0AABAUShXiWAgEn5xwACR-ExG2Jq2EgfoiWL5MiwSQEAAwIAA3kAAzYE"))
-                .build();
-        telegramBot.sendPhoto(msg);
+
     }
 
     @Override

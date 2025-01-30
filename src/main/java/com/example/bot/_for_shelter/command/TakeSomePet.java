@@ -59,7 +59,7 @@ public class TakeSomePet implements Command {
             Long userId = userRepository.findByChatId(chatId).getId();
             if (adoptionService.userHaveAdoptionOrNo(userId)) {
                 sendMessage.setChatId(chatId);
-                sendMessage.setText("Уже есть");
+                sendMessage.setText("Уже есть у вас животное для усыновления");
                 sendBotMessageService.sendMessageWithKeyboardMarkup(sendMessage);
             } else {
                 Long petId = Long.parseLong(matcher.group(2));

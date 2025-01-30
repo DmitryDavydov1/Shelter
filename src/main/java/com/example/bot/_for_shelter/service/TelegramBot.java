@@ -104,7 +104,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     }
 
-    @Scheduled(cron = "*/30 * * * * *")
+    @Scheduled(cron = "0 0 12 * * ?")
     public void addDayInCounter() {
         System.out.println("Я выполняю");
         adoptionService.addOneDay();

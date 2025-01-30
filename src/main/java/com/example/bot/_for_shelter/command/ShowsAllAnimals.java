@@ -42,9 +42,12 @@ public class ShowsAllAnimals implements Command {
             System.out.println("take-this-animal-" + pet.getId());
             markupInLine.setKeyboard(rowsInLine);
             sendMessage.setReplyMarkup(markupInLine);
-            sendMessage.setText("Возраст: " + pet.getAge() +
-                    "Пол: " + pet.getGender());
-            sendMessage.setChatId(update.getMessage().getChatId().toString());
+            sendMessage.setText("Возраст: " + pet.getAge() + "\n" +
+                    "Пол: " + pet.getGender() + "\n" +
+                    "Рост: " + pet.getHeight() + "\n" +
+                    "Кличка: " + pet.getNickname() + "\n" +
+                    "Вес: " + pet.getWeight());
+            sendMessage.setChatId(update.getCallbackQuery().getMessage().getChatId().toString());
             sendBotMessageService.sendMessageWithKeyboardMarkup(sendMessage);
         });
 

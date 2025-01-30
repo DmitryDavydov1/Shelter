@@ -12,8 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.bot._for_shelter.command.CommandName.MapButton;
-import static com.example.bot._for_shelter.command.CommandName.menuForInformation;
+import static com.example.bot._for_shelter.command.CommandName.*;
 
 @Component
 public class ShelterInfo implements Command {
@@ -31,6 +30,7 @@ public class ShelterInfo implements Command {
         List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine1 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine2 = new ArrayList<>();
+        List<InlineKeyboardButton> rowInLine3 = new ArrayList<>();
 
         var backButton = new InlineKeyboardButton();
         String backButtonButtonText = EmojiParser.parseToUnicode("Назад" + " :back:");
@@ -42,10 +42,18 @@ public class ShelterInfo implements Command {
         mapButton.setText(mapButtonText);
         mapButton.setCallbackData(MapButton.getCommandName());
 
+        var writeContact = new InlineKeyboardButton();
+        String writeContactButtonText = EmojiParser.parseToUnicode("записать контактные данные");
+        writeContact.setText(writeContactButtonText);
+        writeContact.setCallbackData(contactData.getCommandName());
+
         rowInLine1.add(mapButton);
         rowInLine2.add(backButton);
+        rowInLine3.add(writeContact);
         rowsInLine.add(rowInLine1);
+        rowsInLine.add(rowInLine3);
         rowsInLine.add(rowInLine2);
+
         markupInLine.setKeyboard(rowsInLine);
         sendMessage.setReplyMarkup(markupInLine);
         int messageId = update.getCallbackQuery().getMessage().getMessageId();

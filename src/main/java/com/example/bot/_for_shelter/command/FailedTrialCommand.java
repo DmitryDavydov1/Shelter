@@ -4,9 +4,10 @@ package com.example.bot._for_shelter.command;
 import com.example.bot._for_shelter.model.Adoption;
 import com.example.bot._for_shelter.repository.AdoptionRepository;
 import com.example.bot._for_shelter.repository.PetRepository;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-
+@Component
 public class FailedTrialCommand implements Command {
 
     String text = """

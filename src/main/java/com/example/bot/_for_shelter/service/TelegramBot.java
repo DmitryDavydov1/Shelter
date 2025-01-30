@@ -38,7 +38,11 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final WriteReportToBd writeReportToBd;
     private final AdoptionService adoptionService;
 
-    public TelegramBot(BotConfig config, List<Command> commandList, UserRepository userRepository, WriteReportToBd writeReportToBd, AdoptionService adoptionService) {
+    public TelegramBot(BotConfig config,
+                       List<Command> commandList,
+                       UserRepository userRepository,
+                       WriteReportToBd writeReportToBd,
+                       AdoptionService adoptionService) {
         this.config = config;
         this.commandList = commandList;
         this.userRepository = userRepository;

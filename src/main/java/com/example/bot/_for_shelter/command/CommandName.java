@@ -17,7 +17,8 @@ public enum CommandName {
     AdminOrUser("/start"),
     WatchReportsByAdmin("/watchCommand"),
     ReportWasViewed("report-was-viewed"),
-    SendWarning("send-warning");
+    SendWarning("send-warning"),
+    MapButton("map-button");
 
 
     private final String commandName;

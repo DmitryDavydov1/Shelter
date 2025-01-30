@@ -16,7 +16,7 @@ public class AdoptionController {
     private AdoptionService adoptionService;
 
     @PostMapping
-    public Adoption addAdoption(@RequestBody AdoptionDTO adoptionDTO) {
+    public Adoption addAdoptiоn(@RequestBody AdoptionDTO adoptionDTO) {
         return adoptionService.addAdoption(adoptionDTO);
     }
 }

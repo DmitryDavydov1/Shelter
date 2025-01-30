@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<BotUser, Long> {
 
+    BotUser findByPhoneNumber(String s);
+
+
     boolean existsByChatId(String chatId);
 
     BotUser findByChatId(String chatId);

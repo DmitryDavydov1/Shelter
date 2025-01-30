@@ -7,10 +7,12 @@ import com.example.bot._for_shelter.config.BotConfig;
 
 import com.example.bot._for_shelter.repository.UserRepository;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
@@ -30,17 +32,18 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     final BotConfig config;
 
-    private final StartCommand startCommand;
+
     private final List<Command> commandList;
     private final UserRepository userRepository;
     private final WriteReportToBd writeReportToBd;
+    private final AdoptionService adoptionService;
 
-    public TelegramBot(BotConfig config, StartCommand startCommand, List<Command> commandList, UserRepository userRepository, WriteReportToBd writeReportToBd) {
+    public TelegramBot(BotConfig config, List<Command> commandList, UserRepository userRepository, WriteReportToBd writeReportToBd, AdoptionService adoptionService) {
         this.config = config;
-        this.startCommand = startCommand;
         this.commandList = commandList;
         this.userRepository = userRepository;
         this.writeReportToBd = writeReportToBd;
+        this.adoptionService = adoptionService;
     }
 
 
@@ -100,6 +103,13 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
 
     }
+
+    @Scheduled(cron = "0 0 12 * * ?")
+    public void addDayInCounter() {
+        System.out.println("Я выполняю");
+        adoptionService.addOneDay();
+    }
+
 
     public void sendPhoto(SendPhoto sendPhoto) {
         try {

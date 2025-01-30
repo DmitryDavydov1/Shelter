@@ -21,7 +21,7 @@ public class AdoptionInfo implements Command {
 
     @Override
     public void execute(Update update) {
-        String shelterInfo = "Обычно животных из приюта берут нахуй";
+        String shelterInfo = "Обычно животных из приюта берут ";
 
         SendMessage sendMessage = SendMessage.builder().chatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId())).text(shelterInfo).build();
 

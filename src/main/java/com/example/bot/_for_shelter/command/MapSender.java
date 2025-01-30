@@ -29,7 +29,7 @@ public class MapSender implements Command {
         SendPhoto msg = SendPhoto
                 .builder()
                 .chatId(update.getCallbackQuery().getMessage().getChatId().toString())
-                .photo(new InputFile("https://avatars.mds.yandex.net/i?id=191beafe68bb99c9489949ee2eb7c95e4e6a8dce-5115981-images-thumbs&n=13-ExG2Jq2EgfoiWL5MiwSQEAAwIAA3kAAzYE"))
+                .photo(new InputFile("https://avatars.mds.yandex.net/get-entity_search/1687920/930922863/orig"))
                 .build();
         bot.sendPhoto(msg);
     }

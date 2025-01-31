@@ -22,7 +22,7 @@ public class ShelterInfo implements Command {
 
     @Override
     public void execute(Update update) {
-        String shelterInfo = "Приют располагается в астане принимает и отдает в добрые руки кошек и собак, рабочий график по кайфу";
+        String shelterInfo = "Выберите пункт";
 
         SendMessage sendMessage = SendMessage.builder().chatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId())).text(shelterInfo).build();
 
@@ -31,6 +31,7 @@ public class ShelterInfo implements Command {
         List<InlineKeyboardButton> rowInLine1 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine2 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine3 = new ArrayList<>();
+        List<InlineKeyboardButton> rowInLine4 = new ArrayList<>();
 
         var backButton = new InlineKeyboardButton();
         String backButtonButtonText = EmojiParser.parseToUnicode("Назад" + " :back:");
@@ -47,11 +48,19 @@ public class ShelterInfo implements Command {
         writeContact.setText(writeContactButtonText);
         writeContact.setCallbackData(contactData.getCommandName());
 
+        var InformationButton = new InlineKeyboardButton();
+        String InformationButtonText = EmojiParser.parseToUnicode("Информация для клиента");
+        InformationButton.setText(InformationButtonText);
+        InformationButton.setCallbackData("/info-1");
+
         rowInLine1.add(mapButton);
         rowInLine2.add(backButton);
         rowInLine3.add(writeContact);
+        rowInLine4.add(InformationButton);
+
         rowsInLine.add(rowInLine1);
         rowsInLine.add(rowInLine3);
+        rowsInLine.add(rowInLine4);
         rowsInLine.add(rowInLine2);
 
         markupInLine.setKeyboard(rowsInLine);

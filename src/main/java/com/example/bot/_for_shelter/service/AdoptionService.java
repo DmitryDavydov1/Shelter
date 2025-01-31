@@ -94,14 +94,14 @@ public class AdoptionService {
         rowInLine1.add(succesfullAdoptionButton);
 
 
-        String extensionTermBy14ButtonText = EmojiParser.parseToUnicode("Испытательный срок пройден на 14");
+        String extensionTermBy14ButtonText = EmojiParser.parseToUnicode("Испытательный срок продлен на 14");
         var extensionTermBy14Button = new InlineKeyboardButton();
         extensionTermBy14Button.setText(extensionTermBy14ButtonText);
         extensionTermBy14Button.setCallbackData("продление-срока-14-" + id);
         rowInLine2.add(extensionTermBy14Button);
 
 
-        String extensionTermBy30ButtonText = EmojiParser.parseToUnicode("Испытательный срок пройден на 30");
+        String extensionTermBy30ButtonText = EmojiParser.parseToUnicode("Испытательный срок продлен на 30");
         var extensionTermBy30Button = new InlineKeyboardButton();
         extensionTermBy30Button.setText(extensionTermBy30ButtonText);
         extensionTermBy30Button.setCallbackData("продление-срока-30-" + id);

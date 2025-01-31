@@ -31,14 +31,21 @@ public class AdoptionInfo implements Command {
         List<InlineKeyboardButton> rowInLine1 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine2 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine3 = new ArrayList<>();
+        List<InlineKeyboardButton> rowInLine4 = new ArrayList<>();
 
         var backButton = new InlineKeyboardButton();
         String backButtonButtonText = EmojiParser.parseToUnicode("Назад" + " :back:");
         backButton.setText(backButtonButtonText);
         backButton.setCallbackData("dog-button");
 
+
+        var informationButton = new InlineKeyboardButton();
+        String informationButtonButtonText = EmojiParser.parseToUnicode("Информация для клиента");
+        informationButton.setText(informationButtonButtonText);
+        informationButton.setCallbackData("/info-2");
+
         var takeAnimal = new InlineKeyboardButton();
-        String takeAnimalButtonText = EmojiParser.parseToUnicode("Вот список животных" + " :back:");
+        String takeAnimalButtonText = EmojiParser.parseToUnicode("Вот список животных" + " :dog2:");
         takeAnimal.setText(takeAnimalButtonText);
         takeAnimal.setCallbackData("/takeAnimal");
 
@@ -50,8 +57,10 @@ public class AdoptionInfo implements Command {
         rowInLine1.add(backButton);
         rowInLine2.add(takeAnimal);
         rowInLine3.add(writeContact);
+        rowInLine4.add(informationButton);
         rowsInLine.add(rowInLine2);
         rowsInLine.add(rowInLine3);
+        rowsInLine.add(rowInLine4);
         rowsInLine.add(rowInLine1);
         markupInLine.setKeyboard(rowsInLine);
         sendMessage.setReplyMarkup(markupInLine);

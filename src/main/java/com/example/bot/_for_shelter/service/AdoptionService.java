@@ -8,7 +8,6 @@ import com.example.bot._for_shelter.model.Pet;
 import com.example.bot._for_shelter.repository.AdoptionRepository;
 import com.example.bot._for_shelter.repository.PetRepository;
 import com.example.bot._for_shelter.repository.UserRepository;
-
 import com.vdurmont.emoji.EmojiParser;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +19,29 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Сервис для управления процессом усыновления животных.
+ * Включает методы для добавления усыновлений, проверки статуса и отправки сообщений пользователям.
+ */
 @Service
 public class AdoptionService {
+
     @Autowired
     AdoptionRepository adoptionRepository;
     @Autowired
     PetRepository petRepository;
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     SendBotMessageService sendBotMessageService;
 
+    /**
+     * Добавляет новое усыновление.
+     *
+     * @param adoptionDTO DTO для создания нового усыновления.
+     * @return созданное {@link Adoption} усыновление.
+     * @throws EntityNotFoundException если питомец или пользователь с указанными ID не найдены.
+     */
     public Adoption addAdoption(AdoptionDTO adoptionDTO) {
         Adoption adoption = new Adoption();
         Pet pet = petRepository.findById(adoptionDTO.getPet_id())
@@ -45,10 +55,20 @@ public class AdoptionService {
         return adoptionRepository.save(adoption);
     }
 
+    /**
+     * Проверяет, есть ли у пользователя активное усыновление.
+     *
+     * @param userId ID пользователя.
+     * @return true, если у пользователя есть активное усыновление, иначе false.
+     */
     public boolean userHaveAdoptionOrNo(Long userId) {
         return adoptionRepository.existsByBotUserId(userId);
     }
 
+    /**
+     * Обновляет счетчик дней в процессе усыновления, и отправляет уведомления,
+     * если условие 30, 44 или 60 дней выполняется.
+     */
     public void addOneDay() {
         adoptionRepository.findAll().forEach(adoption -> {
             adoption.setCurrentDay(adoption.getCurrentDay() + 1);
@@ -77,37 +97,42 @@ public class AdoptionService {
         });
     }
 
+    /**
+     * Создает клавиатуру для кнопок с возможностью управления статусом усыновления на 30-й день.
+     *
+     * @param id ID усыновления.
+     * @return {@link InlineKeyboardMarkup} с кнопками.
+     */
     public InlineKeyboardMarkup buttonForAdoptionWith30Days(Long id) {
-
         InlineKeyboardMarkup markupInLine = new InlineKeyboardMarkup();
-
         List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine1 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine2 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine3 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine4 = new ArrayList<>();
 
+        // Кнопка "Испытательный срок пройден"
         String succesfullAdoptionButtonText = EmojiParser.parseToUnicode("Испытательный срок пройден");
         var succesfullAdoptionButton = new InlineKeyboardButton();
         succesfullAdoptionButton.setText(succesfullAdoptionButtonText);
         succesfullAdoptionButton.setCallbackData("успешный-срок-" + id);
         rowInLine1.add(succesfullAdoptionButton);
 
-
+        // Кнопка "Продление на 14 дней"
         String extensionTermBy14ButtonText = EmojiParser.parseToUnicode("Испытательный срок продлен на 14");
         var extensionTermBy14Button = new InlineKeyboardButton();
         extensionTermBy14Button.setText(extensionTermBy14ButtonText);
         extensionTermBy14Button.setCallbackData("продление-срока-14-" + id);
         rowInLine2.add(extensionTermBy14Button);
 
-
+        // Кнопка "Продление на 30 дней"
         String extensionTermBy30ButtonText = EmojiParser.parseToUnicode("Испытательный срок продлен на 30");
         var extensionTermBy30Button = new InlineKeyboardButton();
         extensionTermBy30Button.setText(extensionTermBy30ButtonText);
         extensionTermBy30Button.setCallbackData("продление-срока-30-" + id);
         rowInLine3.add(extensionTermBy30Button);
 
-
+        // Кнопка "Не прошел испытательный срок"
         String unsuccessfulProbationPeriodButtonText = EmojiParser.parseToUnicode("Не прошел испытательный срок");
         var unsuccessfulProbationPeriodButton = new InlineKeyboardButton();
         unsuccessfulProbationPeriodButton.setText(unsuccessfulProbationPeriodButtonText);
@@ -123,37 +148,46 @@ public class AdoptionService {
         return markupInLine;
     }
 
+    /**
+     * Создает клавиатуру для кнопок с возможностью управления статусом усыновления на 44-й и 60-й день.
+     *
+     * @param id ID усыновления.
+     * @return {@link InlineKeyboardMarkup} с кнопками.
+     */
     public InlineKeyboardMarkup buttonForAdoptionWith44Or60Days(Long id) {
-
         InlineKeyboardMarkup markupInLine = new InlineKeyboardMarkup();
 
         List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine1 = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine2 = new ArrayList<>();
 
-
+        // Кнопка "Испытательный срок пройден"
         String succesfullAdoptionButtonText = EmojiParser.parseToUnicode("Испытательный срок пройден");
         var succesfullAdoptionButton = new InlineKeyboardButton();
         succesfullAdoptionButton.setText(succesfullAdoptionButtonText);
         succesfullAdoptionButton.setCallbackData("успешный-срок-" + id);
         rowInLine1.add(succesfullAdoptionButton);
 
-
+        // Кнопка "Испытательный срок не пройден"
         String extensionTermBy14ButtonText = EmojiParser.parseToUnicode("Испытательный срок не пройден");
         var extensionTermBy14Button = new InlineKeyboardButton();
         extensionTermBy14Button.setText(extensionTermBy14ButtonText);
         extensionTermBy14Button.setCallbackData("доп-неуспешный-срок-" + id);
         rowInLine2.add(extensionTermBy14Button);
 
-
         rowsInLine.add(rowInLine1);
         rowsInLine.add(rowInLine2);
-
 
         markupInLine.setKeyboard(rowsInLine);
         return markupInLine;
     }
 
+    /**
+     * Проверяет, существует ли усыновление с указанным chatId.
+     *
+     * @param chatId ID чата пользователя.
+     * @return true, если усыновление найдено, иначе false.
+     */
     public boolean findByChatId(Long chatId) {
         return adoptionRepository.findAll().stream()
                 .anyMatch(adoption -> adoption.getBotUser().getChatId().equals(String.valueOf(chatId)));

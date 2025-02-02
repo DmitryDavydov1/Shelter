@@ -20,16 +20,17 @@ public class PetService {
      * Добавляет нового питомца в базу данных.
      *
      * @param petDTO DTO, содержащий информацию о питомце.
-     * @return созданный {@link Pet} объект.
+     * @return id нового объекта Pet.
      */
-    public Pet addPet(PetDTO petDTO) {
+    public Long addPet(PetDTO petDTO) {
         Pet pet = new Pet();
         pet.setAge(petDTO.getAge());
         pet.setGender(petDTO.getGender());
         pet.setWeight(petDTO.getWeight());
         pet.setNickname(petDTO.getNickname());
         pet.setHaveOwner(false);
-        return petRepository.save(pet);
+        petRepository.save(pet);
+        return pet.getId();
     }
 
     /**

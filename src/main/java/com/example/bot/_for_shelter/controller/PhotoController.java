@@ -31,13 +31,15 @@ public class PhotoController {
      * Принимает данные фотографии в виде multipart-запроса и сохраняет их
      * в базе данных, ассоциируя с животным по его идентификатору.
      *
-     * @param id идентификатор животного, для которого загружается фотография.
+     * @param id     идентификатор животного, для которого загружается фотография.
      * @param avatar файл изображения, который необходимо загрузить.
+     * @return id нового объекта Photo.
      * @throws IOException если произошла ошибка при обработке файла.
      */
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void addPhoto(Long id, @RequestParam MultipartFile avatar) throws IOException {
-        photoService.uploadPhoto(id, avatar);
+    public ResponseEntity<Long> addPhoto(Long id, @RequestParam MultipartFile avatar) throws IOException {
+        Long photoId = photoService.uploadPhoto(id, avatar);
+        return ResponseEntity.status(HttpStatus.CREATED).body(photoId);
     }
 
     /**

@@ -39,10 +39,10 @@ public class AdoptionService {
      * Добавляет новое усыновление.
      *
      * @param adoptionDTO DTO для создания нового усыновления.
-     * @return созданное {@link Adoption} усыновление.
+     * @return id нового объекта Adoption.
      * @throws EntityNotFoundException если питомец или пользователь с указанными ID не найдены.
      */
-    public Adoption addAdoption(AdoptionDTO adoptionDTO) {
+    public Long addAdoption(AdoptionDTO adoptionDTO) {
         Adoption adoption = new Adoption();
         Pet pet = petRepository.findById(adoptionDTO.getPet_id())
                 .orElseThrow(() -> new EntityNotFoundException("Pet not found with ID: " + adoptionDTO.getPet_id()));
@@ -52,7 +52,7 @@ public class AdoptionService {
         adoption.setBotUser(botUser);
         adoption.setLastDay(30);
         adoption.setCurrentDay(0);
-        return adoptionRepository.save(adoption);
+        return adoptionRepository.save(adoption).getId();
     }
 
     /**

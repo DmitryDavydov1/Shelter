@@ -23,8 +23,9 @@ public class ReportService {
      * Изначально устанавливается статус без фотографии.
      *
      * @param reportDTO объект, содержащий данные для создания отчета.
+     * @return id нового объекта Report.
      */
-    public void addReport(ReportDTO reportDTO) {
+    public int addReport(ReportDTO reportDTO) {
         Report report = new Report();
         report.setText(reportDTO.getText());
         report.setChatId(reportDTO.getChatId());
@@ -32,5 +33,6 @@ public class ReportService {
         report.setTime(LocalTime.now());
         report.setHavePhoto(false);
         reportRepository.save(report);
+        return report.getId();
     }
 }

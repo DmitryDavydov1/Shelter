@@ -22,9 +22,9 @@ public class UserService {
      * Если пользователь с таким chatId уже существует, новый пользователь не добавляется.
      *
      * @param BotUserDTO ДТО объекта пользователя, содержащего данные нового пользователя
-     * @return Добавленный объект пользователя
+     * @return id нового BotUser
      */
-    public BotUser addUser(BotUserDTO BotUserDTO) {
+    public Long addUser(BotUserDTO BotUserDTO) {
         BotUser botUser = new BotUser();
         String chatId = BotUserDTO.getChatId();
         botUser.setName(BotUserDTO.getName());
@@ -34,7 +34,7 @@ public class UserService {
         if (!userRepository.existsByChatId(chatId)) {
             userRepository.save(botUser);
         }
-        return botUser;
+        return botUser.getId();
     }
 
     /**

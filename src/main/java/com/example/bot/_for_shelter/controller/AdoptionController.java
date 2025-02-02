@@ -1,9 +1,10 @@
 package com.example.bot._for_shelter.controller;
 
-import com.example.bot._for_shelter.model.Adoption;
 import com.example.bot._for_shelter.DTO.AdoptionDTO;
 import com.example.bot._for_shelter.service.AdoptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,10 +32,11 @@ public class AdoptionController {
      * о созданной заявке.
      *
      * @param adoptionDTO объект с данными заявки на усыновление, переданными в теле запроса.
-     * @return объект Adoption с информацией о созданной заявке на усыновление.
+     * @return id нового объекта Adoption.
      */
     @PostMapping
-    public Adoption addAdoptiоn(@RequestBody AdoptionDTO adoptionDTO) {
-        return adoptionService.addAdoption(adoptionDTO);
+    public ResponseEntity<Long> addAdoptiоn(@RequestBody AdoptionDTO adoptionDTO) {
+        Long adoptionId = adoptionService.addAdoption(adoptionDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(adoptionId);
     }
 }

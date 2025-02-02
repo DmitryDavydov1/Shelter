@@ -12,7 +12,6 @@ import java.util.List;
 
 import static com.example.bot._for_shelter.command.CommandName.*;
 
-@Component
 public class MenuForInformationCommand implements Command {
     private final SendBotMessageService sendBotMessageService;
 

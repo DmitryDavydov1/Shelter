@@ -37,7 +37,6 @@ public class WatchReports implements Command {
     public void execute(Update update) {
         List<PhotoTg> all = photoTgRepository.findAllByViewed(false);
         all.forEach(photoTg -> {
-            String chatId = update.getMessage().getChatId().toString();
             SendMessage sendMessage = new SendMessage();
             InlineKeyboardMarkup markupInLine = new InlineKeyboardMarkup();
             List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
@@ -57,12 +56,6 @@ public class WatchReports implements Command {
             sendMessage.setReplyMarkup(markupInLine);
             sendMessage.setText(photoTg.getReport().getText());
             sendMessage.setChatId(update.getMessage().getChatId().toString());
-            SendPhoto msg = SendPhoto
-                    .builder()
-                    .chatId(chatId)
-                    .photo(new InputFile(photoTg.getFileId()))
-                    .build();
-            telegramBot.sendPhoto(msg);
             sendBotMessageService.sendMessageWithKeyboardMarkup(sendMessage);
         });
     }

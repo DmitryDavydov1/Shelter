@@ -1,8 +1,8 @@
-package com.example.bot._for_shelter.command;
+package com.example.bot._for_shelter.command.shelterInfo;
 
+import com.example.bot._for_shelter.command.Command;
+import com.example.bot._for_shelter.command.SendBotMessageServiceImpl;
 import com.vdurmont.emoji.EmojiParser;
-import org.aspectj.bridge.ICommand;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.bot._for_shelter.command.CommandName.menuForInformation;
-import static com.example.bot._for_shelter.command.CommandName.takeAnimal;
 
 @Component
 public class Information1Command implements Command {

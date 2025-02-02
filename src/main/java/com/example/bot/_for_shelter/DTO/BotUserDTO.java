@@ -1,4 +1,4 @@
-package com.example.bot._for_shelter.model;
+package com.example.bot._for_shelter.DTO;
 
 /**
  * DTO (Data Transfer Object) для передачи данных о пользователе бота.

@@ -1,5 +1,6 @@
-package com.example.bot._for_shelter.command;
+package com.example.bot._for_shelter.command.shelterInfo;
 
+import com.example.bot._for_shelter.command.Command;
 import com.example.bot._for_shelter.service.TelegramBot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -9,7 +10,6 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static com.example.bot._for_shelter.command.CommandName.MapButton;
-import static com.example.bot._for_shelter.command.CommandName.SendWarning;
 
 @Component
 public class MapSender implements Command {

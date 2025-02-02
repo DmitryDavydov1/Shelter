@@ -1,12 +1,11 @@
-package com.example.bot._for_shelter.command;
+package com.example.bot._for_shelter.command.mainMenu;
 
 
-import com.example.bot._for_shelter.model.PhotoTg;
+import com.example.bot._for_shelter.command.Command;
+import com.example.bot._for_shelter.command.SendBotMessageService;
 import com.example.bot._for_shelter.model.Report;
-import com.example.bot._for_shelter.model.ReportDTO;
-import com.example.bot._for_shelter.repository.PhotoTgRepository;
+import com.example.bot._for_shelter.DTO.ReportDTO;
 import com.example.bot._for_shelter.repository.ReportRepository;
-import com.example.bot._for_shelter.repository.UserRepository;
 import com.example.bot._for_shelter.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;

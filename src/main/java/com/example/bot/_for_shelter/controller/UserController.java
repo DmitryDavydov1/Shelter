@@ -1,9 +1,10 @@
 package com.example.bot._for_shelter.controller;
 
-import com.example.bot._for_shelter.model.BotUser;
-import com.example.bot._for_shelter.model.BotUserDTO;
+import com.example.bot._for_shelter.DTO.BotUserDTO;
 import com.example.bot._for_shelter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,10 +32,11 @@ public class UserController {
      * о добавленном пользователе.
      *
      * @param BotUserDTO объект с данными нового пользователя, переданными в теле запроса.
-     * @return объект BotUser с информацией о добавленном пользователе.
+     * @return id нового BotUser
      */
     @PostMapping
-    public BotUser addUser(@RequestBody BotUserDTO BotUserDTO) {
-        return userService.addUser(BotUserDTO);
+    public ResponseEntity<Long> addUser(@RequestBody BotUserDTO BotUserDTO) {
+        Long userId = userService.addUser(BotUserDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userId);
     }
 }

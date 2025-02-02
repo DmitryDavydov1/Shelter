@@ -1,5 +1,7 @@
-package com.example.bot._for_shelter.command;
+package com.example.bot._for_shelter.command.forAdmin;
 
+import com.example.bot._for_shelter.command.Command;
+import com.example.bot._for_shelter.command.SendBotMessageService;
 import com.example.bot._for_shelter.repository.UserRepository;
 
 import org.springframework.stereotype.Component;

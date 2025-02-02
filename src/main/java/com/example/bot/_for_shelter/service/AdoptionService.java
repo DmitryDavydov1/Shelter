@@ -2,7 +2,7 @@ package com.example.bot._for_shelter.service;
 
 import com.example.bot._for_shelter.command.SendBotMessageService;
 import com.example.bot._for_shelter.model.Adoption;
-import com.example.bot._for_shelter.model.AdoptionDTO;
+import com.example.bot._for_shelter.DTO.AdoptionDTO;
 import com.example.bot._for_shelter.model.BotUser;
 import com.example.bot._for_shelter.model.Pet;
 import com.example.bot._for_shelter.repository.AdoptionRepository;
@@ -39,10 +39,10 @@ public class AdoptionService {
      * Добавляет новое усыновление.
      *
      * @param adoptionDTO DTO для создания нового усыновления.
-     * @return созданное {@link Adoption} усыновление.
+     * @return id нового объекта Adoption.
      * @throws EntityNotFoundException если питомец или пользователь с указанными ID не найдены.
      */
-    public Adoption addAdoption(AdoptionDTO adoptionDTO) {
+    public Long addAdoption(AdoptionDTO adoptionDTO) {
         Adoption adoption = new Adoption();
         Pet pet = petRepository.findById(adoptionDTO.getPet_id())
                 .orElseThrow(() -> new EntityNotFoundException("Pet not found with ID: " + adoptionDTO.getPet_id()));
@@ -52,7 +52,7 @@ public class AdoptionService {
         adoption.setBotUser(botUser);
         adoption.setLastDay(30);
         adoption.setCurrentDay(0);
-        return adoptionRepository.save(adoption);
+        return adoptionRepository.save(adoption).getId();
     }
 
     /**

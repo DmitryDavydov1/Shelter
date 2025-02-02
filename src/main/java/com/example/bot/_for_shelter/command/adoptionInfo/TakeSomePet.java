@@ -1,15 +1,11 @@
-package com.example.bot._for_shelter.command;
+package com.example.bot._for_shelter.command.adoptionInfo;
 
-import com.example.bot._for_shelter.model.AdoptionDTO;
-import com.example.bot._for_shelter.model.BotUser;
-import com.example.bot._for_shelter.model.Pet;
-import com.example.bot._for_shelter.repository.AdoptionRepository;
-import com.example.bot._for_shelter.repository.PetRepository;
+import com.example.bot._for_shelter.DTO.AdoptionDTO;
+import com.example.bot._for_shelter.command.Command;
+import com.example.bot._for_shelter.command.SendBotMessageService;
 import com.example.bot._for_shelter.repository.UserRepository;
 import com.example.bot._for_shelter.service.AdoptionService;
 import com.example.bot._for_shelter.service.PetService;
-import com.example.bot._for_shelter.service.UserService;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;

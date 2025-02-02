@@ -68,4 +68,8 @@ public class Pet {
      */
     public Pet() {
     }
+
+    public boolean getHaveOwner() {
+        return haveOwner;
+    }
 }

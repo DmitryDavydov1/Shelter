@@ -1,7 +1,7 @@
 package com.example.bot._for_shelter.service;
 
-import com.example.bot._for_shelter.model.Pet;
 import com.example.bot._for_shelter.DTO.PetDTO;
+import com.example.bot._for_shelter.model.Pet;
 import com.example.bot._for_shelter.repository.PetRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,105 +11,72 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class PetServiceTest {
 
-    @Mock
-    private PetRepository petRepository;
-
     @InjectMocks
     private PetService petService;
 
-    private PetDTO petDTO;
-    private Pet pet;
+    @Mock
+    private PetRepository petRepository;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-
-        petDTO = new PetDTO();
-        petDTO.setAge(3);
-        petDTO.setGender("Male");
-        petDTO.setWeight(10);
-        petDTO.setNickname("Buddy");
-
-        pet = new Pet();
-        pet.setId(1L);
-        pet.setAge(3);
-        pet.setGender("Male");
-        pet.setWeight(10);
-        pet.setNickname("Buddy");
-        pet.setHaveOwner(false);
     }
 
-//    @Test
-//    void testAddPet() {
-//        // Настройка мок-объекта для возврата сохраненного питомца
-//        when(petRepository.save(any(Pet.class))).thenReturn(pet);
-//
-//        // Выполнение тестируемого метода
-//        Long savedPet = petService.addPet(petDTO);
-//
-//        // Проверка значений сохраненного питомца
-//        assertNotNull(savedPet);
-//        assertEquals(petDTO.getAge(), savedPet.getAge());
-//        assertEquals(petDTO.getGender(), savedPet.getGender());
-//        assertEquals(petDTO.getWeight(), savedPet.getWeight());
-//        assertEquals(petDTO.getNickname(), savedPet.getNickname());
-//        assertFalse(savedPet.isHaveOwner());
-//
-//        // Проверка вызова метода save
-//        verify(petRepository, times(1)).save(any(Pet.class));
-//    }
+    @Test
+    void testAddPet() {
+        PetDTO petDTO = new PetDTO();
+        petDTO.setAge(3);
+        petDTO.setGender("Male");
+        petDTO.setWeight(15);
+        petDTO.setNickname("Buddy");
+
+        Pet savedPet = new Pet();
+        savedPet.setId(1L);
+
+        // Настройка возвращаемого значения при вызове save
+        when(petRepository.save(any(Pet.class))).thenAnswer(invocation -> {
+            Pet pet = invocation.getArgument(0);
+            pet.setId(1L); // Симулируем установку ID
+            return pet;
+        });
+
+        Long petId = petService.addPet(petDTO);
+
+        assertEquals(1L, petId);
+        verify(petRepository, times(1)).save(any(Pet.class));
+    }
+
 
     @Test
     void testSetHaveOwner() {
-        // Настройка мок-объекта для возврата найденного питомца
-        when(petRepository.findById(1L)).thenReturn(Optional.of(pet));
+        Long petId = 1L;
+        Pet pet = new Pet();
+        pet.setId(petId);
+        pet.setHaveOwner(false);
 
-        // Выполнение тестируемого метода
-        petService.setHaveOwner(1L);
+        when(petRepository.findById(petId)).thenReturn(Optional.of(pet));
 
-        // Проверка, что поле haveOwner установлено в true
-        assertTrue(pet.isHaveOwner());
+        petService.setHaveOwner(petId);
 
-        // Проверка вызова методов findById и save
-        verify(petRepository, times(1)).findById(1L);
+        assertTrue(pet.getHaveOwner());
         verify(petRepository, times(1)).save(pet);
     }
 
     @Test
-    void testSetHaveOwner_PetNotFound_ShouldThrowException() {
-        // Настройка мок-объекта для отсутствующего питомца
-        when(petRepository.findById(1L)).thenReturn(Optional.empty());
+    void testSetHaveOwner_PetNotFound() {
+        Long petId = 1L;
 
-        // Проверка выброса исключения
-        Exception exception = assertThrows(NullPointerException.class, () -> {
-            petService.setHaveOwner(1L);
-        });
+        when(petRepository.findById(petId)).thenReturn(Optional.empty());
 
-        // Проверка сообщения исключения
-        assertEquals("Cannot invoke \"com.example.bot._for_shelter.model.Pet.setHaveOwner(boolean)\" because \"pet\" is null", exception.getMessage());
+        petService.setHaveOwner(petId);
 
-        // Проверка, что метод save не был вызван
         verify(petRepository, never()).save(any(Pet.class));
-    }
-
-    @Test
-    void testSetHaveOwner_PetExists_ShouldSetHaveOwnerTrue() {
-        // Настройка мок-объекта для успешного поиска питомца
-        when(petRepository.findById(1L)).thenReturn(Optional.of(pet));
-
-        // Выполнение тестируемого метода
-        petService.setHaveOwner(1L);
-
-        // Проверка, что поле haveOwner установлено в true
-        assertTrue(pet.isHaveOwner());
-
-        // Проверка вызова методов findById и save
-        verify(petRepository, times(1)).findById(1L);
-        verify(petRepository, times(1)).save(pet);
     }
 }

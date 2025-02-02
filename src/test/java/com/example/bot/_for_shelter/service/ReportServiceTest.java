@@ -1,7 +1,7 @@
 package com.example.bot._for_shelter.service;
 
 import com.example.bot._for_shelter.model.Report;
-import com.example.bot._for_shelter.model.ReportDTO;
+import com.example.bot._for_shelter.DTO.ReportDTO;
 import com.example.bot._for_shelter.repository.ReportRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,8 +9,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;

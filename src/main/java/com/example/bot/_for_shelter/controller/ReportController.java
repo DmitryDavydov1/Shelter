@@ -1,13 +1,12 @@
 package com.example.bot._for_shelter.controller;
 
-import com.example.bot._for_shelter.model.ReportDTO;
+import com.example.bot._for_shelter.DTO.ReportDTO;
 import com.example.bot._for_shelter.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Контроллер для обработки запросов, связанных с отчетами.

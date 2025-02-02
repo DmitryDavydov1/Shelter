@@ -1,7 +1,7 @@
 package com.example.bot._for_shelter.service;
 
 import com.example.bot._for_shelter.model.Adoption;
-import com.example.bot._for_shelter.model.AdoptionDTO;
+import com.example.bot._for_shelter.DTO.AdoptionDTO;
 import com.example.bot._for_shelter.model.BotUser;
 import com.example.bot._for_shelter.model.Pet;
 import com.example.bot._for_shelter.repository.AdoptionRepository;

@@ -1,9 +1,8 @@
 package com.example.bot._for_shelter.controller;
 
 import com.example.bot._for_shelter.model.Pet;
-import com.example.bot._for_shelter.model.PetDTO;
+import com.example.bot._for_shelter.DTO.PetDTO;
 import com.example.bot._for_shelter.service.PetService;
-import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +34,7 @@ public class PetController {
      * @return объект Pet с информацией о добавленном животном.
      */
     @PostMapping
-    public Pet addPet(@RequestBody PetDTO petDTO) {
-        return petService.addPet(petDTO);
+    public void addPet(@RequestBody PetDTO petDTO) {
+        petService.addPet(petDTO);
     }
 }

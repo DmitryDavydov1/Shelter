@@ -1,7 +1,7 @@
 package com.example.bot._for_shelter.controller;
 
 import com.example.bot._for_shelter.model.Adoption;
-import com.example.bot._for_shelter.model.AdoptionDTO;
+import com.example.bot._for_shelter.DTO.AdoptionDTO;
 import com.example.bot._for_shelter.service.AdoptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

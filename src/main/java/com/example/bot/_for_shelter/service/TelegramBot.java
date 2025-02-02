@@ -1,19 +1,16 @@
 package com.example.bot._for_shelter.service;
 
 import com.example.bot._for_shelter.command.*;
+import com.example.bot._for_shelter.command.mainMenu.WriteReportToBd;
 import com.example.bot._for_shelter.config.BotConfig;
 import com.example.bot._for_shelter.repository.UserRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
-import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.Comparator;
 import java.util.List;
 
 import static com.example.bot._for_shelter.command.CommandName.writeContactAtBd;

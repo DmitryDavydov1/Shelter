@@ -1,7 +1,7 @@
 package com.example.bot._for_shelter.service;
 
 import com.example.bot._for_shelter.model.Report;
-import com.example.bot._for_shelter.model.ReportDTO;
+import com.example.bot._for_shelter.DTO.ReportDTO;
 import com.example.bot._for_shelter.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

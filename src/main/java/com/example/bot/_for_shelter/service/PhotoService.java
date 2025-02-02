@@ -26,11 +26,12 @@ public class PhotoService {
     /**
      * Загружает фотографию и сохраняет ее в базе данных, связывая с отчетом.
      *
-     * @param id ID отчета, к которому будет привязана фотография.
+     * @param id         ID отчета, к которому будет привязана фотография.
      * @param avatarFile Файл фотографии, который будет загружен.
+     * @return id нового объекта Photo.
      * @throws IOException Если произошла ошибка при чтении данных из файла.
      */
-    public void uploadPhoto(Long id, MultipartFile avatarFile) throws IOException {
+    public Long uploadPhoto(Long id, MultipartFile avatarFile) throws IOException {
         Photo photo = new Photo();
         photo.setFileSize(avatarFile.getSize());
         photo.setMediaType(avatarFile.getContentType());
@@ -38,7 +39,7 @@ public class PhotoService {
         photo.setFileSize(avatarFile.getSize());
         Report report = reportRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Report not found"));
         photo.setReport(report);
-        photoRepository.save(photo);
+        return photoRepository.save(photo).getId();
     }
 
     /**

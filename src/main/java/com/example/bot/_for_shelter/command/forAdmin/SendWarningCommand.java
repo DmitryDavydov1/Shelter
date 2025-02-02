@@ -1,12 +1,11 @@
-package com.example.bot._for_shelter.command;
+package com.example.bot._for_shelter.command.forAdmin;
 
+import com.example.bot._for_shelter.command.Command;
+import com.example.bot._for_shelter.command.SendBotMessageService;
 import com.example.bot._for_shelter.service.PhotoTgService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 @Component

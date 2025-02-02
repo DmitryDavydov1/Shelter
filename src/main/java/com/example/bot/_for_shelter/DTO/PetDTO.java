@@ -1,4 +1,4 @@
-package com.example.bot._for_shelter.model;
+package com.example.bot._for_shelter.DTO;
 
 import lombok.Getter;
 import lombok.Setter;

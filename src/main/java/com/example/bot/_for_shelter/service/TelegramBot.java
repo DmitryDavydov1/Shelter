@@ -22,27 +22,37 @@ import static com.example.bot._for_shelter.command.CommandName.writeContactAtBd;
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
 
-    /** Конфигурация бота */
+    /**
+     * Конфигурация бота
+     */
     final BotConfig config;
 
-    /** Список всех доступных команд бота */
+    /**
+     * Список всех доступных команд бота
+     */
     private final List<Command> commandList;
 
-    /** Репозиторий для работы с пользователями */
+    /**
+     * Репозиторий для работы с пользователями
+     */
     private final UserRepository userRepository;
 
-    /** Сервис для записи отчетов в базу данных */
+    /**
+     * Сервис для записи отчетов в базу данных
+     */
     private final WriteReportToBd writeReportToBd;
 
-    /** Сервис для работы с процессом усыновления животных */
+    /**
+     * Сервис для работы с процессом усыновления животных
+     */
     private final AdoptionService adoptionService;
 
     /**
      * Конструктор для инициализации бота.
      *
-     * @param config Конфигурация бота
-     * @param commandList Список команд, которые поддерживает бот
-     * @param userRepository Репозиторий пользователей
+     * @param config          Конфигурация бота
+     * @param commandList     Список команд, которые поддерживает бот
+     * @param userRepository  Репозиторий пользователей
      * @param writeReportToBd Сервис для записи отчетов
      * @param adoptionService Сервис для усыновления животных
      */
@@ -128,7 +138,7 @@ public class TelegramBot extends TelegramLongPollingBot {
      * Плановое выполнение задачи добавления дня в счетчик усыновления.
      * Задача выполняется каждый день в полдень.
      */
-    @Scheduled(cron = "0 0 12 * * ?")
+    @Scheduled(cron = "0 * * * * ?")
     public void addDayInCounter() {
         System.out.println("Я выполняю");
         adoptionService.addOneDay();

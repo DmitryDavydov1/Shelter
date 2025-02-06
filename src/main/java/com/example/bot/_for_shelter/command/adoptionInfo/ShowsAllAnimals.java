@@ -3,6 +3,7 @@ package com.example.bot._for_shelter.command.adoptionInfo;
 import com.example.bot._for_shelter.command.Command;
 import com.example.bot._for_shelter.command.SendBotMessageService;
 import com.example.bot._for_shelter.repository.PetRepository;
+import com.example.bot._for_shelter.service.PetService;
 import com.vdurmont.emoji.EmojiParser;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -18,19 +19,20 @@ import static com.example.bot._for_shelter.command.CommandName.*;
 @Component
 public class ShowsAllAnimals implements Command {
 
-    private final PetRepository petRepository;
-    private final SendBotMessageService sendBotMessageService;
 
-    public ShowsAllAnimals(PetRepository petRepository, SendBotMessageService sendBotMessageService) {
-        this.petRepository = petRepository;
+    private final SendBotMessageService sendBotMessageService;
+    private final PetService petService;
+
+    public ShowsAllAnimals(SendBotMessageService sendBotMessageService, PetService petService) {
         this.sendBotMessageService = sendBotMessageService;
+        this.petService = petService;
     }
 
     @Override
     public void execute(Update update) {
 
 
-        petRepository.findAllByHaveOwner(false).forEach(pet -> {
+        petService.findAllByHaveOwner(false).forEach(pet -> {
             SendMessage sendMessage = new SendMessage();
             InlineKeyboardMarkup markupInLine = new InlineKeyboardMarkup();
             List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();

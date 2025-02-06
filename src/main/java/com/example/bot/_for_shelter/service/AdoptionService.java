@@ -10,7 +10,11 @@ import com.example.bot._for_shelter.repository.PetRepository;
 import com.example.bot._for_shelter.repository.UserRepository;
 import com.vdurmont.emoji.EmojiParser;
 import jakarta.persistence.EntityNotFoundException;
+import org.hibernate.annotations.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -42,6 +46,11 @@ public class AdoptionService {
      * @return id нового объекта Adoption.
      * @throws EntityNotFoundException если питомец или пользователь с указанными ID не найдены.
      */
+
+    @Caching(evict = {
+            @CacheEvict(value = "have-adoption", allEntries = true),
+            @CacheEvict(value = "haveAdoption", key = "#adoptionDTO.bot_user_id")
+    })
     public Long addAdoption(AdoptionDTO adoptionDTO) {
         Adoption adoption = new Adoption();
         Pet pet = petRepository.findById(adoptionDTO.getPet_id())
@@ -61,6 +70,7 @@ public class AdoptionService {
      * @param userId ID пользователя.
      * @return true, если у пользователя есть активное усыновление, иначе false.
      */
+    @Cacheable("haveAdoption")
     public boolean userHaveAdoptionOrNo(Long userId) {
         return adoptionRepository.existsByBotUserId(userId);
     }
@@ -188,8 +198,27 @@ public class AdoptionService {
      * @param chatId ID чата пользователя.
      * @return true, если усыновление найдено, иначе false.
      */
+    @Cacheable("have-adoption")
     public boolean findByChatId(Long chatId) {
         return adoptionRepository.findAll().stream()
                 .anyMatch(adoption -> adoption.getBotUser().getChatId().equals(String.valueOf(chatId)));
+    }
+
+
+    public Adoption findByChatId(Integer chatId) {
+        Adoption adoption = adoptionRepository.findById(chatId).orElse(null);
+        return adoption;
+    }
+
+    public void saveAdoption(Adoption adoption) {
+        adoptionRepository.save(adoption);
+    }
+
+    @Caching(evict = {
+            @CacheEvict(value = "haveAdoption", key = "#adoption.botUser.id"),
+            @CacheEvict(value = "have-adoption", key = "#adoption.botUser.chatId")
+    })
+    public void deleteAdoption(Adoption adoption) {
+        adoptionRepository.delete(adoption);
     }
 }

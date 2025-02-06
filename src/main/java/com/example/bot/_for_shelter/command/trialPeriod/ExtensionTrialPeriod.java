@@ -3,7 +3,7 @@ package com.example.bot._for_shelter.command.trialPeriod;
 import com.example.bot._for_shelter.command.Command;
 import com.example.bot._for_shelter.command.SendBotMessageService;
 import com.example.bot._for_shelter.model.Adoption;
-import com.example.bot._for_shelter.repository.AdoptionRepository;
+import com.example.bot._for_shelter.service.AdoptionService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -11,15 +11,17 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 public class ExtensionTrialPeriod implements Command {
 
-    private final AdoptionRepository adoptionRepository;
+
     private final SendBotMessageService sendBotMessageService;
+    private final AdoptionService adoptionService;
 
     private final String text = """
-            Нашей командой принято решение о продление тестового периода усыновления на """;
+            Нашей командой принято решение о продление тестового периода усыновления на
+            """;
 
-    public ExtensionTrialPeriod(AdoptionRepository adoptionRepository, SendBotMessageService sendBotMessageService) {
-        this.adoptionRepository = adoptionRepository;
+    public ExtensionTrialPeriod(SendBotMessageService sendBotMessageService, AdoptionService adoptionService) {
         this.sendBotMessageService = sendBotMessageService;
+        this.adoptionService = adoptionService;
     }
 
     @Override
@@ -44,9 +46,9 @@ public class ExtensionTrialPeriod implements Command {
 
     public void increasingPeriod(Integer countDays, Integer adoptionId) {
         SendMessage sendMessage = new SendMessage();
-        Adoption adoption = adoptionRepository.findById(adoptionId).orElse(null);
+        Adoption adoption = adoptionService.findByChatId(adoptionId);
         adoption.setLastDay(adoption.getCurrentDay() + countDays);
-        adoptionRepository.save(adoption);
+        adoptionService.saveAdoption(adoption);
         sendMessage.setChatId(adoption.getBotUser().getChatId());
         sendMessage.setText(text + countDays + " дней");
         sendBotMessageService.sendMessageWithKeyboardMarkup(sendMessage);

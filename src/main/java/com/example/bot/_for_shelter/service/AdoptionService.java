@@ -216,7 +216,7 @@ public class AdoptionService {
 
     @Caching(evict = {
             @CacheEvict(value = "haveAdoption", key = "#adoption.botUser.id"),
-            @CacheEvict(value = "have-adoption", key = "#adoption.botUser.chatId")
+            @CacheEvict(value = "have-adoption", key = "T(java.lang.Long).parseLong(#adoption.botUser.chatId)")
     })
     public void deleteAdoption(Adoption adoption) {
         adoptionRepository.delete(adoption);

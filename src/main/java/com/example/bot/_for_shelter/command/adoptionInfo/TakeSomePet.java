@@ -6,6 +6,7 @@ import com.example.bot._for_shelter.command.SendBotMessageService;
 import com.example.bot._for_shelter.repository.UserRepository;
 import com.example.bot._for_shelter.service.AdoptionService;
 import com.example.bot._for_shelter.service.PetService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -34,6 +35,7 @@ public class TakeSomePet implements Command {
     }
 
     @Override
+    @Transactional
     public void execute(Update update) {
         String chatId = String.valueOf(update.getCallbackQuery().getMessage().getChatId());
         String command = update.getCallbackQuery().getData();

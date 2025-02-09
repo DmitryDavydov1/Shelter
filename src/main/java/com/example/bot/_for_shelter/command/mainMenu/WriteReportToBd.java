@@ -8,6 +8,7 @@ import com.example.bot._for_shelter.DTO.ReportDTO;
 import com.example.bot._for_shelter.repository.ReportRepository;
 import com.example.bot._for_shelter.service.*;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -48,6 +49,7 @@ public class WriteReportToBd implements Command {
     }
 
     @Override
+    @Transactional
     public void execute(Update update) {
         if (update.hasCallbackQuery()) {
             SendMessage message = new SendMessage();

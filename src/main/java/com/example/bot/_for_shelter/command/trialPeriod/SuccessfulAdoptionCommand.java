@@ -6,6 +6,7 @@ import com.example.bot._for_shelter.model.Adoption;
 import com.example.bot._for_shelter.repository.PetRepository;
 
 import com.example.bot._for_shelter.service.AdoptionService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -30,6 +31,7 @@ public class SuccessfulAdoptionCommand implements Command {
             """;
 
     @Override
+    @Transactional
     public void execute(Update update) {
         String callbackText = update.getCallbackQuery().getData();
         String[] parts = callbackText.split("-");

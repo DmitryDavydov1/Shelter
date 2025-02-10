@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -56,6 +58,12 @@ public class WatchReports implements Command {
             sendMessage.setReplyMarkup(markupInLine);
             sendMessage.setText(photoTg.getReport().getText());
             sendMessage.setChatId(update.getMessage().getChatId().toString());
+            SendPhoto msg = SendPhoto
+                    .builder()
+                    .chatId(String.valueOf(update.getMessage().getChatId()))
+                    .photo(new InputFile(photoTg.getFileId()))
+                    .build();
+            telegramBot.sendPhoto(msg);
             sendBotMessageService.sendMessageWithKeyboardMarkup(sendMessage);
         });
     }
